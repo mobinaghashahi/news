@@ -1,0 +1,20 @@
+@font-face {
+    font-family: myFirstFont;
+    src: url('/font/vazir.ttf');
+}
+*{
+    font-family: myFirstFont;
+}
+body{
+    margin: 0;
+}
+.bottomBlockNews{
+    font-size: 12px;
+}
+.blockNews{
+    background-color: #4b5563;
+    margin-top: 20px;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+}
