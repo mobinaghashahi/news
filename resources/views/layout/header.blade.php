@@ -21,7 +21,7 @@
         <div class="col-12" style="background-color: #4b5563;float: right">
             <div style="float: right;color: white;text-decoration: none; text-align: right;padding: 15px 10px 15px 0px;">
                 <a  style="color: white;text-decoration: none; text-align: left;" href="/">
-                    NEWS
+                    Live NEWS
                 </a>
             </div>
             <div style="float: left;color: white;text-decoration: none; text-align: left;padding: 15px 10px 15px 10px;">

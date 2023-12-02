@@ -6,7 +6,7 @@
 <div class="col-12" style="justify-content: center;display: flex">
     <div class="col-6 blockNews">
         <div class="col-12">
-            <p>{{$new->text}}</p>
+            <pre>{{$new->text}}</pre>
         </div>
         <div class="bottomBlockNews">
             <div class="col-12">
