@@ -11,4 +11,7 @@ class Admin extends Controller
             'visitedMonthAgo' => visitedMonthAgo(),
         ]);
     }
+    public function addNews(){
+        return view('admin.addNews');
+    }
 }

@@ -14,4 +14,5 @@ Route::get('/logout', [loginController::class, 'logout']);
 
 Route::prefix('/admin')->group(function () {
     Route::get('/', [admin::class, 'showDashboard']);
+    Route::get('/addNews', [admin::class, 'addNews']);
 });
