@@ -22,7 +22,11 @@
                 <a>EFFECT: <span style="color: {{effectColors()[$new->effect]}}">{{$new->effect}}</span></a>
             </div>
             <div class="col-12">
-                <a>IMPORTANT: {{$new->important}}</a>
+                @if($new->important==1)
+                    <a>IMPORTANT: YES</a>
+                @else
+                    <a>IMPORTANT: NO</a>
+                @endif
             </div>
             <div class="col-12">
                 <a>COMMENT: {{$new->comment}}</a>
