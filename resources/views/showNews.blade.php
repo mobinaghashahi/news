@@ -16,7 +16,7 @@
                 <a>DATE: {{$new->created_at}}</a>
             </div>
             <div class="col-12">
-                <a>INSTRUMENT:</a>
+                <a>INSTRUMENT:{{$tags[$new->id]}}</a>
             </div>
             <div class="col-12">
                 <a>EFFECT: {{$new->effect}}</a>
