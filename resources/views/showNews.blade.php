@@ -3,7 +3,7 @@
 
 
 @foreach($news as $new)
-<div class="col-12" style="justify-content: center;display: flex">
+<div class="col-12" style="justify-content: center;display: flex;color: #ff0000">
     <div class="col-6 blockNews">
         <div class="col-12">
             <pre class="newsShowBlock">{{$new->text}}</pre>
@@ -19,7 +19,7 @@
                 <a>INSTRUMENT:{{$tags[$new->id]}}</a>
             </div>
             <div class="col-12">
-                <a>EFFECT: {{$new->effect}}</a>
+                <a>EFFECT: <span style="color: {{effectColors()[$new->effect]}}">{{$new->effect}}</span></a>
             </div>
             <div class="col-12">
                 <a>IMPORTANT: {{$new->important}}</a>

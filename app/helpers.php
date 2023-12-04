@@ -52,5 +52,9 @@ function retriveTags()
         $tags="";
     }
     return $arrayTags;
+}
 
+function effectColors(): array
+{
+    return array(4=>"#167900",3=>'#22b901',2=>'#29e001',1=>'#2dff00',0=>'#ffffff',-1=>'#ff7070',-2=>'#ff5757',-3=>'#FF1919FF',-4=>'#FF0000FF');
 }
