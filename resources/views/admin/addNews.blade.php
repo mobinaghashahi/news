@@ -20,7 +20,7 @@
                 @endforeach
             @endif
 
-            <form method="post" name="enter" enctype="multipart/form-data" action="/admin/addProduct">
+            <form method="post" name="enter" enctype="multipart/form-data" action="/admin/addNews">
                 @csrf
 
                 <div class="col-6 titleTextInput" style="display: flex;justify-content: center">
@@ -53,7 +53,7 @@
                 <div class="col-12 titleTextInput" style="display: flex;justify-content: center">
                     <div class="col-3" style="text-align: center">
                         <label>Important</label>
-                        <input type="checkbox" id="available" name="availability" value="instock" checked>
+                        <input type="checkbox" id="important" name="important" value="1">
                     </div>
                 </div>
                 <div class="col-12" style="padding-top: 10px;display: flex;justify-content: center">
