@@ -138,3 +138,12 @@ select option{
 .inputSubmit:active {
     transform: scale(0.95);
 }
+.newsShowBlock {
+    padding: 0px 10px 0px 10px;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+    text-align: justify;
+}
