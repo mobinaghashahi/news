@@ -40,7 +40,7 @@
                 </div>
                 <div class="col-6 titleTextInput" style="display: flex;justify-content: center">
                     <div class="col-5">
-                        <input name="comment" style="text-align: center" class="inputText" placeholder="comment">
+                        <input name="instrument" style="text-align: center" class="inputText" placeholder="instrument">
                     </div>
                 </div>
                 <div class="col-12 titleTextInput" style="display: flex;justify-content: center">
