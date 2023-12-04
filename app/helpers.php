@@ -1,5 +1,7 @@
 <?php
 use App\Models\Visit;
+use App\Models\Instrument;
+
 function visitedMonthAgo(): array
 {
     //this is for fix groupBy error!!!!!
@@ -15,4 +17,20 @@ function visitedMonthAgo(): array
         array_push($countVisit, array($date, $visitQuary));
     }
     return $countVisit;
+}
+
+
+
+function saveTags($text,$news_id){
+
+    //جدا کردن تگ ها از یک دیگر
+    $seprateTags=explode("-", $text);
+    foreach ($seprateTags as $tag){
+        $instrument=new Instrument();
+        $instrument->tag=$tag;
+        $instrument->news_id=$news_id;
+        $instrument->save();
+        echo $tag;
+    }
+    return true;
 }
