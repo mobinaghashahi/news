@@ -9,6 +9,7 @@ use App\Http\Middleware\loginMiddleware;
 
 
 Route::get('/',[HomeController::class, 'showHomePage']);
+Route::get('/insertScrollNews/{page}',[HomeController::class, 'insertNews']);
 Route::get('/login', [loginController::class, 'loginView'])->name('login')->middleware(authMiddleware::class); //روت نمایش ویو صفحه ورود
 Route::post('/login', [loginController::class, 'login']); //روت پست اطلاعات فرم ورود
 Route::get('/logout', [loginController::class, 'logout']);
