@@ -152,7 +152,7 @@ tr:nth-child(even) {
 }
 
 .online{
-    animation-name: blankGreen;
+    animation-name: blinkGreen;
     animation-duration: 2s;
     animation-iteration-count: infinite
 }
