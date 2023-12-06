@@ -17,4 +17,7 @@ Route::prefix('/admin')->group(function () {
 
     Route::get('/addNews', [admin::class, 'showAddNewsForm']);
     Route::post('/addNews', [admin::class, 'addNews']);
+
+    Route::get('/onlineEdit', [admin::class, 'onlineEdit']);
+    Route::post('/editNews', [admin::class, 'editNews']);
 });

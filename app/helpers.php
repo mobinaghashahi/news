@@ -39,22 +39,44 @@ function saveTags($text, $news_id)
 
 function retriveTags()
 {
-    $arrayTags=array();
-    $tags="";
+    $arrayTags = array();
+    $tags = "";
     $instruments = Instrument::all();
     $news = News::select('id')->get();
-    foreach ($news as $new){
-        foreach ($instruments as $instrument){
-            if($instrument->news_id==$new->id)
-                $tags.=" #".$instrument->tag;
+    foreach ($news as $new) {
+        foreach ($instruments as $instrument) {
+            if ($instrument->news_id == $new->id)
+                $tags .= " #" . $instrument->tag;
         }
-        $arrayTags[$new->id]=$tags;
-        $tags="";
+        $arrayTags[$new->id] = $tags;
+        $tags = "";
     }
     return $arrayTags;
 }
 
+function glueTags($news_id): string
+{
+    $tags = "";
+    $instruments = Instrument::where('news_id', '=', $news_id)->get();
+    //تعداد تگ ها
+    $countTags=$instruments->count();
+
+    foreach ($instruments as $instrument) {
+        if ($countTags!=1)
+            $tags.=$instrument->tag.'-';
+        else
+            $tags.=$instrument->tag;
+        //میخواهیم آخرین تگ خط تیره نخورد. احمقانه است ولی کار میکند.
+        $countTags--;
+    }
+    return $tags;
+}
+
+function deleteTags($news_id){
+    $tags=Instrument::where('news_id','=',$news_id);
+    $tags->delete();
+}
 function effectColors(): array
 {
-    return array(4=>"#167900",3=>'#22b901',2=>'#29e001',1=>'#2dff00',0=>'#ffffff',-1=>'#ff7070',-2=>'#ff5757',-3=>'#FF1919FF',-4=>'#FF0000FF');
+    return array(4 => "#167900", 3 => '#22b901', 2 => '#29e001', 1 => '#2dff00', 0 => '#ffffff', -1 => '#ff7070', -2 => '#ff5757', -3 => '#FF1919FF', -4 => '#FF0000FF');
 }
