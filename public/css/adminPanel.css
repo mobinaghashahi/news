@@ -156,7 +156,7 @@ tr:nth-child(even) {
     animation-duration: 2s;
     animation-iteration-count: infinite
 }
-@keyframes blankGreen {
+@keyframes blinkGreen {
     0% {color: #000000;}
     30% {color: green;}
     80% {color: green;}
