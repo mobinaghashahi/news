@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->id();
-            $table->string('text',10000);
-            $table->string('title');
+            $table->string('text',10000)->nullable();
+            $table->string('title')->nullable();
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
 
             $table->boolean('important');
             $table->integer('effect');
-            $table->string('comment');
+            $table->string('comment')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
