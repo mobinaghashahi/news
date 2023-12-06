@@ -27,6 +27,8 @@ function saveTags($text, $news_id)
 
     //جدا کردن تگ ها از یک دیگر
     $seprateTags = explode("-", $text);
+    //هشتگ های خالی را حذف میکند.
+    $seprateTags=array_filter($seprateTags);
     foreach ($seprateTags as $tag) {
         $instrument = new Instrument();
         $instrument->tag = $tag;
