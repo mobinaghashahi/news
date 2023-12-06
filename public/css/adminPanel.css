@@ -150,3 +150,15 @@ tr:nth-child(even) {
     background-color: #3b3b3b;
     color: white;
 }
+
+.online{
+    animation-name: blankGreen;
+    animation-duration: 2s;
+    animation-iteration-count: infinite
+}
+@keyframes blankGreen {
+    0% {color: #000000;}
+    30% {color: green;}
+    80% {color: green;}
+    100% {color: #000000;}
+}

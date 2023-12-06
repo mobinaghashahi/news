@@ -33,7 +33,7 @@
     </button>
     <div class="dropdown-container">
         <a href="/admin/addNews">افزودن اخبار جدید</a>
-        <a href="/admin/editNewsPanel">ویرایش اخبار</a>
+        <a class="online" href="/admin/onlineEdit">ویرایش آنلاین اخبار</a>
     </div>
 
 
