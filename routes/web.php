@@ -14,6 +14,11 @@ Route::get('/login', [loginController::class, 'loginView'])->name('login')->midd
 Route::post('/login', [loginController::class, 'login']); //روت پست اطلاعات فرم ورود
 Route::get('/logout', [loginController::class, 'logout']);
 
+
+Route::get('/updateNews', [HomeController::class, 'updateNews']);
+
+
+
 Route::prefix('/admin')->middleware([loginMiddleware::class])->group(function () {
     Route::get('/', [admin::class, 'showDashboard']);
 
@@ -22,4 +27,6 @@ Route::prefix('/admin')->middleware([loginMiddleware::class])->group(function ()
 
     Route::get('/onlineEdit', [admin::class, 'onlineEdit']);
     Route::post('/editNews', [admin::class, 'editNews']);
+
+    Route::get('/insertScrollNews/{page}', [admin::class, 'insertScrollNews']);
 });

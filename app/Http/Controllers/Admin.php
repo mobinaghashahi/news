@@ -50,8 +50,7 @@ class Admin extends Controller
 
     public function onlineEdit()
     {
-        glueTags(8);
-        return view('admin.onlineEdit', ['news' => News::all()->reverse(),
+        return view('admin.onlineEdit', ['news' => News::all()->reverse()->take(5),
             'tags' => retriveTags()]);
     }
 
@@ -82,5 +81,10 @@ class Admin extends Controller
         saveTags($request->instrument, $news->id);
 
         return redirect()->intended('/admin/onlineEdit')->with('msg', 'خبر با موفقیت افزوده شد.');
+    }
+
+    public function insertScrollNews($page){
+        return view('admin.insertScrollNews', ['news' => News::all()->reverse()->skip($page*5)->take(5),
+            'tags' => retriveTags()]);
     }
 }
