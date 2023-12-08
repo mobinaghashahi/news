@@ -15,7 +15,6 @@ Route::post('/login', [loginController::class, 'login']); //روت پست اطل
 Route::get('/logout', [loginController::class, 'logout']);
 
 
-Route::get('/updateNews', [HomeController::class, 'updateNews']);
 
 
 
