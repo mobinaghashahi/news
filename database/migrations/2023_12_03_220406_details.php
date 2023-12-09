@@ -11,12 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('instrument', function (Blueprint $table) {
+        Schema::create('details', function (Blueprint $table) {
             $table->id();
-            $table->string('tag');
 
-            $table->unsignedBigInteger('details_id');
-            $table->foreign('details_id')->references('id')->on('details');
+            $table->boolean('important');
+            $table->integer('effect');
+            $table->string('comment')->nullable();
+
+            $table->unsignedBigInteger('news_id');
+            $table->foreign('news_id')->references('id')->on('news');
 
             $table->rememberToken();
             $table->timestamps();
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('instrument');
+        Schema::dropIfExists('details');
     }
 };

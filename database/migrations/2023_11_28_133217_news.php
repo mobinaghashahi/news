@@ -19,9 +19,9 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
 
-            $table->boolean('important');
-            $table->integer('effect');
-            $table->string('comment')->nullable();
+            //$table->boolean('important');
+            //$table->integer('effect');
+            //$table->string('comment')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
