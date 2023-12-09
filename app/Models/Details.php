@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Instrument extends Model
+class Details extends Model
 {
     use HasFactory;
     protected $primaryKey='id';
-    protected $fillable=['tag','details_id'];
-    protected $table='instrument';
+    protected $fillable=['important','effect','comment','news_id'];
+    protected $table='details';
 }
