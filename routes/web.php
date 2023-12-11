@@ -26,6 +26,7 @@ Route::prefix('/admin')->middleware([loginMiddleware::class])->group(function ()
 
     Route::get('/onlineEdit', [admin::class, 'onlineEdit']);
     Route::post('/editNews', [admin::class, 'editNews']);
+    Route::get('/addDetailsForm/{details_id}', [admin::class, 'addDetailsForm']);
 
     Route::get('/insertScrollNews/{page}', [admin::class, 'insertScrollNews']);
 });

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('details', function (Blueprint $table) {
             $table->id();
 
-            $table->boolean('important');
-            $table->integer('effect');
+            $table->boolean('important')->nullable();
+            $table->integer('effect')->nullable();
             $table->string('comment')->nullable();
 
             $table->unsignedBigInteger('news_id');

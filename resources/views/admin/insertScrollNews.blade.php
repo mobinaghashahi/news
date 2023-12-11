@@ -20,38 +20,75 @@
                         <a>DATE: {{$new->created_at}}</a>
                     </div>
                     <hr style="margin-top: 10px">
-                    <div class="col-12">
-                        <a>INSTRUMENT:<input name="instrument" class="inputText"
-                                             placeholder="INSTRUMENT" value="{{glueTags($new->id)}}"></a>
+                    <div class="col-12" style="padding-top: 5px">
+                        @foreach($details as $detail)
+                            @if($detail->news_id==$new->id)
+                                <!-- ues from add new details -->
+                                <input id="countDetailsField" type="text" name="countDetailsField" value="1" hidden>
+
+                                <div class="col-12"
+                                     style="border: black solid 2px;justify-content: center;display: flex;padding: 10px 0px 10px 0px;margin-top: 10px">
+                                    <div class="col-11">
+                                        <div class="col-12">
+                                            <a>INSTRUMENT:<input name="instrument_1" class="inputText"
+                                                                 placeholder="INSTRUMENT"
+                                                                 value="{{glueTags($detail->id)}}"></a>
+                                        </div>
+                                        <div class="col-12">
+                                            <a>EFFECT:</a>
+                                            <div class="col-12">
+                                                @for($i=-4;$i<=4;$i++)
+                                                    <label for="child">{{$i}}</label>
+                                                    @if($detail->effect==$i)
+                                                        <input type="radio" id="{{$detail->id}}"
+                                                               name="effect_{{$loop->index}}"
+                                                               value="{{$i}}" checked>
+                                                    @else
+                                                        <input type="radio" id="{{$detail->id}}"
+                                                               name="effect_{{$loop->index}}"
+                                                               value="{{$i}}">
+                                                    @endif
+                                                @endfor
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <a>IMPORTANT:</a>
+                                            @if($detail->important==1)
+                                                <a>YES: <input type="radio" id="important"
+                                                               name="important_{{$detail->id}}"
+                                                               value="1" checked></a>
+                                                <a>NO: <input type="radio" id="important"
+                                                              name="important_{{$detail->id}}"
+                                                              value="0"></a>
+                                            @else
+                                                <a>YES: <input type="radio" id="important"
+                                                               name="important_{{$detail->id}}"
+                                                               value="1"></a>
+                                                <a>NO: <input type="radio" id="important"
+                                                              name="important_{{$detail->id}}"
+                                                              value="0" checked></a>
+                                            @endif
+                                        </div>
+                                        <div class="col-12">
+                                            <a>COMMENT: <input name="comment_1" class="inputText"
+                                                               placeholder="comment"
+                                                               value="{{$detail->comment}}"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
                     </div>
-                    <hr style="margin-top: 10px">
-                    <div class="col-12">
-                        <a>EFFECT:</a>
-                        <div class="col-12">
-                            @for($i=-4;$i<=4;$i++)
-                                <label for="child">{{$i}}</label>
-                                @if($new->effect==$i)
-                                    <input type="radio" id="{{$new->id}}" name="effect" value="{{$i}}" checked>
-                                @else
-                                    <input type="radio" id="{{$new->id}}" name="effect" value="{{$i}}">
-                                @endif
-                            @endfor
-                        </div>
+                    <div class="col-1" style="padding-top: 10px">
+                        <button type="button" name="details{{$new->id}}" class="addDetails"
+                                style="width: 30px;height: 30px;background-color: green;border: transparent;border-radius: 10px;cursor: cell;margin-right: 5px;color: white ">
+                            +
+                        </button>
                     </div>
-                    <div class="col-12">
-                        @if($new->important==1)
-                            <a>IMPORTANT: <input type="checkbox" id="important" name="important" value="1" checked></a>
-                        @else
-                            <a>IMPORTANT: <input type="checkbox" id="important" name="important"></a>
-                        @endif
-                    </div>
-                    <div class="col-12">
-                        <a>COMMENT: <input name="comment"  class="inputText"
-                                           placeholder="comment" value="{{$new->comment}}"></a>
-                    </div>
+
                     <div class="col-12" style="display: flex;justify-content: center;padding-top: 20px">
                         <div class="col-3">
-                            <input id="button{{$new->id}}" class="inputSubmit" type="button" value="EDIT">
+                            <input id="details{{$new->id}}" class="inputSubmit" type="button" value="EDIT">
                         </div>
                     </div>
                 </div>
