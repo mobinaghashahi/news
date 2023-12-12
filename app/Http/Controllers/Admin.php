@@ -79,7 +79,7 @@ class Admin extends Controller
         $news->save();
 
         //حذف کردن تگ ها و جزئیات قبلی خبر
-        deleteTags($news->id);
+        deleteTagsByNewsID($news->id);
 
         //ذخیره کردن details
         $news_id = $request->id;
@@ -107,5 +107,12 @@ class Admin extends Controller
     public function addDetailsForm($details_id)
     {
         return view('admin.addDetailsForm', ['details_id' => $details_id]);
+    }
+
+    public function deleteDetailsForm($details_id)
+    {
+        deleteTagsByDetailsID($details_id);
+        deleteDetailsByDetailsID($details_id);
+        return true;
     }
 }

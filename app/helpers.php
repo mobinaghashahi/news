@@ -96,17 +96,20 @@ function glueTags($details_id): string
     return $tags;
 }
 
-function deleteTags($news_id){
+function deleteTagsByNewsID($news_id){
     $tags=Instrument::join('details','instrument.details_id','=','details.id')
         ->join('news','news.id','=','details.news_id')
         ->where('news.id','=',$news_id)
         ->delete();
     return 1;
 }
-function deleteDetails($news_id){
-    $tags=Details::join('news','news.id','=','details.news_id')
-        ->where('news.id','=',$news_id)
-        ->delete();
+
+function deleteTagsByDetailsID($details_id){
+    $tags=Instrument::where('details_id','=',$details_id)->delete();
+    return 1;
+}
+function deleteDetailsByDetailsID($details_id){
+    $tags=Details::where('id','=',$details_id)->delete();
 }
 function effectColors(): array
 {

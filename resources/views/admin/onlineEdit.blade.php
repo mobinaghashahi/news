@@ -27,15 +27,17 @@
                         <div class="col-12" id="{{$new->id}}" style="padding-top: 5px">
                             @foreach($details as $detail)
                                 @if($detail->news_id==$new->id)
-                                    <!-- ues from add new details -->
-                                    <input id="idDetails_{{$detail->id}}" type="text" name="idDetails_{{$detail->id}}"
-                                           value="{{$detail->id}}" hidden>
-
-                                    <div class="col-12"
-                                         style="border: black solid 2px;justify-content: center;display: flex;padding: 10px 0px 10px 0px;margin-top: 10px">
-
+                                    <div class="col-12" id="{{$detail->id}}"
+                                         style="border: black solid 2px;justify-content: center;display: flex;padding: 10px 0px 10px 0px;margin-top: 10px;">
+                                        <!-- ues from add new details -->
+                                        <input id="idDetails_{{$detail->id}}" type="text" name="idDetails_{{$detail->id}}"
+                                               value="{{$detail->id}}" hidden>
                                         <div class="col-11">
-                                            
+                                            <a class="delete" style="cursor: pointer">
+                                                <img src="/logo/deleteRed.png" width="20" height="20" style="float: right">
+                                                <input type="text" name="{{$detail->id}}"
+                                                       value="{{$detail->id}}" hidden>
+                                            </a>
                                             <div class="col-12">
                                                 <a>INSTRUMENT:<input name="instrument_{{$detail->id}}" class="inputText"
                                                                      placeholder="INSTRUMENT"
@@ -184,6 +186,24 @@
             $(window).on("load", function () {
                 $('#countCarTypeFild').val(1);
             });
+
+
+
+
+            $(document).ready(function () {
+                $("body").on('click', '.delete', function () { // changed
+                    console.log(this.lastElementChild.name)
+                    let detailsElementID=this.lastElementChild.name;
+                    $.ajax({
+                        type: "GET",
+                        url: "/admin/deleteDetailsForm/" + detailsElementID,
+                        success: function (data) {
+                            document.getElementById(detailsElementID).remove();
+                        }
+                    });
+                });
+            });
+
 
         </script>
         @endsection
