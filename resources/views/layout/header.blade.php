@@ -3,7 +3,6 @@
 <head lang="en">
 
     <title>news</title>
-    <link rel="shortcut icon" href="/logo/logo.ico">
 
     <meta name="title" content="NEWS">
     <meta name="description"

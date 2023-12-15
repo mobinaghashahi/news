@@ -1,5 +1,5 @@
 @foreach($news as $new)
-    <div class="col-12" style="justify-content: center;display: flex;color: #ff0000">
+    <div class="col-12" id="{{$new->id}}" style="justify-content: center;display: flex;color: #ff0000">
         <div class="col-6 blockNews">
             <div class="col-12">
                 <pre class="newsShowBlock">{{$new->text}}</pre>

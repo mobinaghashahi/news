@@ -13,6 +13,7 @@ Route::get('/insertScrollNews/{page}',[HomeController::class, 'insertNews']);
 Route::get('/login', [loginController::class, 'loginView'])->name('login')->middleware(authMiddleware::class); //روت نمایش ویو صفحه ورود
 Route::post('/login', [loginController::class, 'login']); //روت پست اطلاعات فرم ورود
 Route::get('/logout', [loginController::class, 'logout']);
+Route::get('/singleBlockNews/{news_id}', [HomeController::class, 'singleBlockNews']);
 
 
 

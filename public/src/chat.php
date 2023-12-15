@@ -1,5 +1,6 @@
 <?php
 namespace ChatApp;
+use App\Models\News;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 class Chat implements MessageComponentInterface {

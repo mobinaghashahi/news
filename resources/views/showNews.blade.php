@@ -2,7 +2,7 @@
 @section('content')
 
     @foreach($news as $new)
-        <div class="col-12" style="justify-content: center;display: flex;color: #ff0000">
+        <div class="col-12" id="{{$new->id}}" style="justify-content: center;display: flex;color: #ff0000">
             <div class="col-6 blockNews">
                 <div class="col-12">
                     <pre class="newsShowBlock">{{$new->text}}</pre>
@@ -62,7 +62,6 @@
                     type: "GET",
                     url: "/insertScrollNews/" + page,
                     success: function (data) {
-                        beep()
                         page = page + 1;
                         $("body").append(data);
                         /*console.log(element)
@@ -71,6 +70,32 @@
                 });
             }
         });
+
+
+        $(document).ready(function() {
+            var conn = new WebSocket('ws://localhost:8080');
+            conn.onopen = function(e) {
+                console.log("Connection stablished");
+            }
+            conn.onmessage = function(e) {
+                //console.log('newsMessage');
+                var newsID=e.data
+                var divID="#"+newsID;
+                $.ajax({
+                    type: "GET",
+                    url: "/singleBlockNews/" + newsID,
+                    success: function (data) {
+                        //console.log('newsMessage');
+                        //location.reload()
+                        //document.getElementById(newsID).innerHTML=data;
+                        $(divID).replaceWith(data);
+                        /*console.log(element)
+                        $(element).animate({backgroundColor: "#eeeeee"});*/
+                    }
+                });
+            }
+        });
+
     </script>
     </body>
 @endsection

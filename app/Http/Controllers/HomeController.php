@@ -19,4 +19,10 @@ class HomeController extends Controller
             'tags'=>retriveTags(),
             'details'=>Details::all()]);
     }
+    public function singleBlockNews($news_id)
+    {
+        return view('singleBlockNews', ['news' => News::where('id','=',$news_id)->get(),
+            'tags'=>retriveTags(),
+            'details'=>Details::all()]);
+    }
 }
