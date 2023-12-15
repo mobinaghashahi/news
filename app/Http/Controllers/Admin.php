@@ -78,7 +78,7 @@ class Admin extends Controller
         $news->user_id = Auth::user()->id;
         $news->save();
 
-        //حذف کردن تگ ها و جزئیات قبلی خبر
+        //حذف کردن تگ ها قبلی خبر
         deleteTagsByNewsID($news->id);
 
         //ذخیره کردن details
