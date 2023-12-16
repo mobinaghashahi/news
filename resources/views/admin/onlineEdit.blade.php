@@ -119,8 +119,8 @@
 
                     console.log($(this).closest("form")[0][1].value);
 
-                    //ارسال آی دی اخبار تغییر کرده برای کلاینت ها
-                    conn.send($(this).closest("form")[0][1].value);
+                    var newsID=$(this).closest("form")[0][1].value
+
 
                     conn.onopen = function(e) {
                         console.log("Connection stablished");
@@ -135,6 +135,8 @@
                         data: $(this).closest("form").serialize(), // changed
                         success: function (data) {
                             beep()
+                            //ارسال آی دی اخبار تغییر کرده برای کلاینت ها
+                            conn.send(newsID);
                             /*console.log(element)
                             $(element).animate({backgroundColor: "#eeeeee"});*/
                         }

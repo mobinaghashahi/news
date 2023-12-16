@@ -58,11 +58,19 @@ class Admin extends Controller
 
     public function onlineEdit()
     {
+        $lastDetailsID=Details::orderBy('id')
+            ->get('id')->reverse()->first();
+        if($lastDetailsID==null)
+        {
+            $lastDetailsID=1;
+            $lastDetailsID=json_encode($lastDetailsID);
+        }
+
+
         return view('admin.onlineEdit', ['news' => News::all()->reverse()->take(5),
             'tags' => retriveTags(),
             'details' => Details::all(),
-            'lastDetailsID' => Details::orderBy('id')
-                ->get('id')->reverse()->first()]);
+            'lastDetailsID' => $lastDetailsID]);
     }
 
     public function editNews(Request $request)
