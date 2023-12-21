@@ -1,5 +1,6 @@
 <?php
 require 'vendor/autoload.php';
+require 'src/chat.php';
 use Ratchet\Server\IoServer;
 use ChatApp\Chat;
 use Ratchet\Http\HttpServer;
@@ -10,6 +11,6 @@ $server = IoServer::factory(
             new Chat()
         )
     ),
-    8080
+    1020
 );
 $server->run();

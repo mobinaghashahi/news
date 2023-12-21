@@ -14,12 +14,17 @@ class Chat implements MessageComponentInterface {
         echo "New connection! ({$conn->resourceId})\n";
     }
     public function onMessage(ConnectionInterface $from, $msg) {
-        foreach ($this->clients as $client) {
+		if($msg=="ping")
+			$from->send("pong");
+		else{
+			foreach ($this->clients as $client) {
             if ($from !== $client) {
                 // The sender is not the receiver, send to each client connected
                 $client->send($msg);
             }
         }
+		}
+        
     }
     public function onClose(ConnectionInterface $conn) {
         // The connection is closed, remove it, as we can no longer send it messages

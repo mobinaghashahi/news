@@ -140,7 +140,7 @@ function splitFileds($filedName,$request){
     //جدا کردن فیلد تگ های یک اخبار اگر چند فیلد باشد
     $pattern = '/^'.$filedName.'_\d+$/';
     $filed_array = preg_grep($pattern, array_keys($all));
-
+	$values=[];
     $index=0;
     foreach ($filed_array as $key)
     {
