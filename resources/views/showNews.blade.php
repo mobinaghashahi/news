@@ -2,6 +2,7 @@
 @section('content')
 
     @foreach($news as $new)
+        s
         <div class="col-12" id="{{$new->id}}" style="justify-content: center;display: flex;color: #ff0000">
             <div class="col-6 blockNews">
                 <div class="col-12">
