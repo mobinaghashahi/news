@@ -16,6 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/style.css?v=4.7" rel="stylesheet">
     <script src="/js/jquery.min.js"></script>
+    <script src="/js/reconnecting-websocket.js"></script>
     <link href="/css/RWD.css" rel="stylesheet">
     <header>
         <div class="col-12" style="background-color: #4b5563;float: right">

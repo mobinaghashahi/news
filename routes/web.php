@@ -5,6 +5,7 @@ use App\Http\Middleware\authMiddleware;
 use App\Http\Controllers\Auth\loginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin;
+use App\Http\Controllers\Export;
 use App\Http\Middleware\loginMiddleware;
 
 
@@ -14,6 +15,9 @@ Route::get('/login', [loginController::class, 'loginView'])->name('login')->midd
 Route::post('/login', [loginController::class, 'login']); //روت پست اطلاعات فرم ورود
 Route::get('/logout', [loginController::class, 'logout']);
 Route::get('/singleBlockNews/{news_id}', [HomeController::class, 'singleBlockNews']);
+
+
+Route::get('/test', [Export::class, 'export']);
 
 
 

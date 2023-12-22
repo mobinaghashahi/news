@@ -1,6 +1,5 @@
 @extends('layout.master')
 @section('content')
-
     @foreach($news as $new)
         <div class="col-12" id="{{$new->id}}" style="justify-content: center;display: flex;color: #ff0000">
             <div class="col-6 blockNews">
@@ -73,7 +72,7 @@
 
 
         $(document).ready(function() {
-            var conn = new WebSocket('ws://localhost:8080');
+            var conn = new ReconnectingWebSocket('ws://188.136.196.60:1020');
             conn.onopen = function(e) {
                 console.log("Connection stablished");
             }
