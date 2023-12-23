@@ -17,7 +17,8 @@ Route::get('/logout', [loginController::class, 'logout']);
 Route::get('/singleBlockNews/{news_id}', [HomeController::class, 'singleBlockNews']);
 
 
-Route::get('/test', [Export::class, 'export']);
+
+
 
 
 
@@ -35,4 +36,7 @@ Route::prefix('/admin')->middleware([loginMiddleware::class])->group(function ()
     Route::get('/deleteDetailsForm/{details_id}', [admin::class, 'deleteDetailsForm']);
 
     Route::get('/insertScrollNews/{page}', [admin::class, 'insertScrollNews']);
+
+    Route::get('/exportAll', [Export::class, 'exportAll']);
+    Route::get('/exportImportant', [Export::class, 'exportImportant']);
 });

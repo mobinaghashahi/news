@@ -35,6 +35,13 @@
         <a href="/admin/addNews">افزودن اخبار جدید</a>
         <a class="online" href="/admin/onlineEdit">ویرایش آنلاین اخبار</a>
     </div>
+    <button class="dropdown-btn">خروجی
+        <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-container">
+        <a href="/admin/exportAll">کلی</a>
+        <a href="/admin/exportImportant">اخبار مهم</a>
+    </div>
 
 
 

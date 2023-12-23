@@ -4,15 +4,19 @@ namespace App\Http\Controllers;
 
 use Maatwebsite\Excel\Exporter;
 use Illuminate\Http\Request;
-namespace App\Http\Controllers;
 
 use App\Exports\NewsExport;
+use App\Exports\ImportantNewsExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class Export extends Controller
 {
-    public function export()
+    public function exportAll()
     {
-        return Excel::download(new NewsExport, 'users.xlsx');
+        return Excel::download(new NewsExport, 'news.xlsx');
+    }
+    public function exportImportant()
+    {
+        return Excel::download(new ImportantNewsExport, 'news.xlsx');
     }
 }
