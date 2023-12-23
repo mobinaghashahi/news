@@ -1,5 +1,4 @@
 @extends('layout.master')
-{{dd('s')}}
 @section('content')
     @foreach($news as $new)
         <div class="col-12" id="{{$new->id}}" style="justify-content: center;display: flex;color: #ff0000">
