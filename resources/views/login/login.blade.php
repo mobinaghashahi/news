@@ -20,21 +20,21 @@
             <form method="post" name="enter" action="/login">
                 @csrf
                 <div class="col-12 divLabelInput">
-                    <a style="color: white">نام کاربری</a>
+                    <a style="color: white">User Name</a>
                 </div>
                 <div class="col-12 divInputText">
                     <input name="userName" type="text" class="inputText">
                 </div>
 
                 <div class="col-12 divLabelInput">
-                    <a style="color: white">رمز عبور</a>
+                    <a style="color: white">Password</a>
                 </div>
                 <div class="col-12 divInputText">
                     <input name="password" type="password" class="inputText">
                 </div>
 
                 <div class="col-12 divInputSubmit">
-                    <input name="enter" class="inputSubmit" type="submit" value="ورود">
+                    <input name="enter" class="inputSubmit" type="submit" value="Login">
                 </div>
 
             </form>
