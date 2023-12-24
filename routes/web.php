@@ -7,9 +7,10 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\Export;
 use App\Http\Middleware\loginMiddleware;
+use App\Http\Middleware\AdminMiddleware;
 
 
-Route::get('/',[HomeController::class, 'showHomePage']);
+Route::get('/',[HomeController::class, 'showHomePage'])->middleware([loginMiddleware::class]);
 Route::get('/insertScrollNews/{page}',[HomeController::class, 'insertNews']);
 Route::get('/login', [loginController::class, 'loginView'])->name('login')->middleware(authMiddleware::class); //روت نمایش ویو صفحه ورود
 Route::post('/login', [loginController::class, 'login']); //روت پست اطلاعات فرم ورود
@@ -24,7 +25,7 @@ Route::get('/singleBlockNews/{news_id}', [HomeController::class, 'singleBlockNew
 
 
 
-Route::prefix('/admin')->middleware([loginMiddleware::class])->group(function () {
+Route::prefix('/admin')->middleware([AdminMiddleware::class])->group(function () {
     Route::get('/', [admin::class, 'showDashboard']);
 
     Route::get('/addNews', [admin::class, 'showAddNewsForm']);

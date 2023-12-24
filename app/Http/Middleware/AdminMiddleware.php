@@ -1,13 +1,12 @@
 <?php
 
 namespace App\Http\Middleware;
-
+use Illuminate\Support\Facades\Auth;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Auth;
 
-class loginMiddleware
+class AdminMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,7 +15,7 @@ class loginMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::check())
+        if(!empty(Auth::user()->type)&&Auth::user()->type=='admin')
             return $next($request);
         return redirect()->intended('/login');
     }
