@@ -82,7 +82,7 @@
                             //document.getElementById(newsID).innerHTML=data;
                             conn.send('new');
 
-                            //clearForm()
+                            clearForm()
 
                             //$(divID).replaceWith(data);
                             /*console.log(element)
