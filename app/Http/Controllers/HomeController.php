@@ -25,4 +25,11 @@ class HomeController extends Controller
             'tags'=>retriveTags(),
             'details'=>Details::all()]);
     }
+
+    public function addNewNewsBlock()
+    {
+        return view('addNewNewsBlock', ['news' => News::get()->last(),
+            'tags'=>retriveTags(),
+            'details'=>Details::all()]);
+    }
 }

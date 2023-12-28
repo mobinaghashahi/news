@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Controllers\SocketController;
 use App\Models\Details;
 use App\Models\News;
 use App\Models\Instrument;
@@ -51,6 +51,7 @@ class Admin extends Controller
 
         //ذخیره کردن هشتگ ها
         saveTags($request->instrument, $details->id);
+
 
         return redirect()->intended('/admin/addNews')->with('msg', 'خبر با موفقیت افزوده شد.');
 

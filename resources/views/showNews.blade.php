@@ -1,49 +1,51 @@
 @extends('layout.master')
 @section('content')
-    @foreach($news as $new)
-        <div class="col-12" id="{{$new->id}}" style="justify-content: center;display: flex;color: #ff0000">
-            <div class="col-6 blockNews">
-                <div class="col-12">
-                    <pre class="newsShowBlock">{{$new->text}}</pre>
-                </div>
-                <div class="bottomBlockNews">
+    <div id="news">
+        @foreach($news as $new)
+            <div class="col-12" id="{{$new->id}}" style="justify-content: center;display: flex;color: #ff0000">
+                <div class="col-6 blockNews">
                     <div class="col-12">
-                        <a>TITLE: {{$new->title}}</a>
+                        <pre class="newsShowBlock">{{$new->text}}</pre>
                     </div>
-                    <div class="col-12">
-                        <a>DATE: {{$new->created_at}}</a>
-                    </div>
-                    @foreach($details as $detail)
-                        @if($detail->news_id==$new->id)
-                            <hr>
-                            <div class="col-12" style="display:flex;justify-content: center">
-                                <div class="col-11">
-                                    <div class="col-12">
-                                        <a>INSTRUMENT:{{$tags[$detail->id]}}</a>
-                                    </div>
-                                    <div class="col-12">
-                                        <a>EFFECT: <span
-                                                style="color: {{effectColors()[$detail->effect]}}">{{$detail->effect}}</span></a>
-                                    </div>
-                                    <div class="col-12">
-                                        @if($detail->important==1)
-                                            <a>IMPORTANT: YES</a>
-                                        @else
-                                            <a>IMPORTANT: NO</a>
-                                        @endif
-                                    </div>
-                                    <div class="col-12">
-                                        <a>COMMENT: {{$detail->comment}}</a>
+                    <div class="bottomBlockNews">
+                        <div class="col-12">
+                            <a>TITLE: {{$new->title}}</a>
+                        </div>
+                        <div class="col-12">
+                            <a>DATE: {{$new->created_at}}</a>
+                        </div>
+                        @foreach($details as $detail)
+                            @if($detail->news_id==$new->id)
+                                <hr>
+                                <div class="col-12" style="display:flex;justify-content: center">
+                                    <div class="col-11">
+                                        <div class="col-12">
+                                            <a>INSTRUMENT:{{$tags[$detail->id]}}</a>
+                                        </div>
+                                        <div class="col-12">
+                                            <a>EFFECT: <span
+                                                    style="color: {{effectColors()[$detail->effect]}}">{{$detail->effect}}</span></a>
+                                        </div>
+                                        <div class="col-12">
+                                            @if($detail->important==1)
+                                                <a>IMPORTANT: YES</a>
+                                            @else
+                                                <a>IMPORTANT: NO</a>
+                                            @endif
+                                        </div>
+                                        <div class="col-12">
+                                            <a>COMMENT: {{$detail->comment}}</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endif
-                    @endforeach
+                            @endif
+                        @endforeach
 
+                    </div>
                 </div>
             </div>
-        </div>
-    @endforeach
+        @endforeach
+    </div>
     <script>
 
         //صدای بوق
@@ -71,27 +73,46 @@
         });
 
 
-        $(document).ready(function() {
-            var conn = new ReconnectingWebSocket('ws://188.136.196.60:1020');
-            conn.onopen = function(e) {
+        $(document).ready(function () {
+            var conn = new ReconnectingWebSocket('ws://82.115.16.178:1020');
+            conn.onopen = function (e) {
                 console.log("Connection stablished");
             }
-            conn.onmessage = function(e) {
+            conn.onmessage = function (e) {
                 //console.log('newsMessage');
-                var newsID=e.data
-                var divID="#"+newsID;
-                $.ajax({
-                    type: "GET",
-                    url: "/singleBlockNews/" + newsID,
-                    success: function (data) {
-                        //console.log('newsMessage');
-                        //location.reload()
-                        //document.getElementById(newsID).innerHTML=data;
-                        $(divID).replaceWith(data);
-                        /*console.log(element)
-                        $(element).animate({backgroundColor: "#eeeeee"});*/
-                    }
-                });
+                message = e.data;
+                if (message == "new") {
+                    $.ajax({
+                        type: "GET",
+                        url: "/addNewNewsBlock",
+                        success: function (data) {
+                            //console.log('newsMessage');
+                            //location.reload()
+                            //document.getElementById(newsID).innerHTML=data;
+
+                            $("#news").prepend(data);
+                            //$(divID).replaceWith(data);
+                            /*console.log(element)
+                            $(element).animate({backgroundColor: "#eeeeee"});*/
+                        }
+                    });
+                } else {
+                    var newsID = e.data
+                    var divID = "#" + newsID;
+                    $.ajax({
+                        type: "GET",
+                        url: "/singleBlockNews/" + newsID,
+                        success: function (data) {
+                            //console.log('newsMessage');
+                            //location.reload()
+                            //document.getElementById(newsID).innerHTML=data;
+                            $(divID).replaceWith(data);
+                            /*console.log(element)
+                            $(element).animate({backgroundColor: "#eeeeee"});*/
+                        }
+                    });
+                }
+
             }
         });
 

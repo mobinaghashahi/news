@@ -16,6 +16,7 @@ Route::get('/login', [loginController::class, 'loginView'])->name('login')->midd
 Route::post('/login', [loginController::class, 'login']); //روت پست اطلاعات فرم ورود
 Route::get('/logout', [loginController::class, 'logout']);
 Route::get('/singleBlockNews/{news_id}', [HomeController::class, 'singleBlockNews']);
+Route::get('/addNewNewsBlock', [HomeController::class, 'addNewNewsBlock']);
 
 
 

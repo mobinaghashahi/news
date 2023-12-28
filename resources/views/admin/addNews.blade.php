@@ -20,9 +20,8 @@
                 @endforeach
             @endif
 
-            <form method="post" name="enter" enctype="multipart/form-data" action="/admin/addNews">
+            <form method="post" name="enter" id="form" enctype="multipart/form-data" action="/admin/addNews">
                 @csrf
-
                 <div class="col-6 titleTextInput" style="display: flex;justify-content: center">
                     <div class="col-5">
                         <input name="title" style="text-align: center" class="inputText" placeholder="title">
@@ -58,10 +57,50 @@
                 </div>
                 <div class="col-12" style="padding-top: 10px;display: flex;justify-content: center">
                     <div class="col-3">
-                        <input class="inputSubmit" type="submit" value="افزودن">
+                        <input class="inputSubmit" type="button" value="افزودن">
                     </div>
                 </div>
             </form>
         </div>
     </div>
+    <script src="/js/reconnecting-websocket.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script>
+        var conn = new ReconnectingWebSocket('ws://82.115.16.178:1020');
+        conn.onopen = function(e) {
+            console.log("Connection stablished");
+        }
+        $(document).ready(function () {
+                $("body").on('click', '.inputSubmit', function (e) { // changed
+                    $.ajax({
+                        type: "POST",
+                        url: "/admin/addNews",
+                        data: $(this).closest("form").serialize(), // changed
+                        success: function (data) {
+                            //console.log('newsMessage');
+                            //location.reload()
+                            //document.getElementById(newsID).innerHTML=data;
+                            conn.send('new');
+
+                            //clearForm()
+
+                            //$(divID).replaceWith(data);
+                            /*console.log(element)
+                            $(element).animate({backgroundColor: "#eeeeee"});*/
+                        }
+                    });
+
+                });
+        });
+
+        function clearForm(){
+            var elements = document.getElementsByTagName("input");
+            for (var ii=0; ii < elements.length; ii++) {
+                if (elements[ii].type == "text"||elements[ii].type == "textarea") {
+                    elements[ii].value = "";
+                }
+            }
+            $("#form").find("input[type=text], textarea").val("");
+        }
+    </script>
 @endsection
