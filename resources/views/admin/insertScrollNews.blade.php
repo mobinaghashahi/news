@@ -50,7 +50,7 @@
                                             <a>EFFECT:</a>
                                             <div class="col-12">
                                                 @for($i=-4;$i<=4;$i++)
-                                                    <label for="child">{{$i}}</label>
+                                                    <label for="child" style="border-left: 1px solid black;padding-left: 5px">{{$i}}</label>
                                                     @if($detail->effect==$i)
                                                         <input type="radio" id="{{$detail->id}}"
                                                                name="effect_{{$detail->id}}"
