@@ -105,6 +105,9 @@ select option{
     border-color: #6c6c6c;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
 }
+.inputTextArea{
+    height: 200px;
+}
 
 /* CSS */
 .inputSubmit {

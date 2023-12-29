@@ -44,7 +44,7 @@
                 </div>
                 <div class="col-12 titleTextInput" style="display: flex;justify-content: center">
                     <div class="col-8">
-                        <textarea name="text" class="inputText" style="text-align: left;direction:ltr;text-align: justify;max-width: 100%;min-width: 100%"
+                        <textarea name="text" class="inputText inputTextArea" style="text-align: left;direction:ltr;text-align: justify;max-width: 100%;min-width: 100%"
                                   placeholder="news text"></textarea>
                     </div>
                 </div>
