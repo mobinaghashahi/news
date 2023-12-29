@@ -36,6 +36,7 @@ Route::prefix('/admin')->middleware([AdminMiddleware::class])->group(function ()
     Route::post('/editNews', [admin::class, 'editNews']);
     Route::get('/addDetailsForm/{details_id}', [admin::class, 'addDetailsForm']);
     Route::get('/deleteDetailsForm/{details_id}', [admin::class, 'deleteDetailsForm']);
+    Route::get('/deleteNewsForm/{news_id}', [admin::class, 'deleteNewsForm']);
 
     Route::get('/insertScrollNews/{page}', [admin::class, 'insertScrollNews']);
 

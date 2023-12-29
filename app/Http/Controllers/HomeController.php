@@ -6,6 +6,7 @@ use App\Models\Details;
 use App\Models\Instrument;
 use App\Models\News;
 use Illuminate\Http\Request;
+use function PHPUnit\Framework\isNull;
 
 class HomeController extends Controller
 {
@@ -21,7 +22,13 @@ class HomeController extends Controller
     }
     public function singleBlockNews($news_id)
     {
-        return view('singleBlockNews', ['news' => News::where('id','=',$news_id)->get(),
+        $news=News::where('id','=',$news_id)->get();
+
+        //برای دیلیت کردن اخبار
+        if(isNull($news))
+            return null;
+
+        return view('singleBlockNews', ['news' => $news,
             'tags'=>retriveTags(),
             'details'=>Details::all()]);
     }

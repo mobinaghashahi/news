@@ -3,11 +3,18 @@
 
 
     @foreach($news as $new)
-        <form method="post" name="enter">
+        <form method="post" name="enter" id="{{$new->id}}">
             @csrf
             <div class="col-12" style="justify-content: center;display: flex;color: #ff0000">
                 <input type="text" name="id" value="{{$new->id}}" hidden>
                 <div class="col-6 blockNews">
+                    <div class="col-2">
+                        <a class="deleteNews" style="cursor: pointer">
+                            <img src="/logo/deleteRed.png" width="20" height="20" style="float: right">
+                            <input type="text" name="{{$new->id}}"
+                                   value="{{$new->id}}" hidden>
+                        </a>
+                    </div>
                     <div class="col-12 titleTextInput" style="display: flex;justify-content: center">
                         <div class="col-8">
                         <textarea id="text{{$new->id}}" name="text" class="inputText"
@@ -23,7 +30,7 @@
                         <div class="col-12">
                             <a>DATE: {{$new->created_at}}</a>
                         </div>
-                        <hr style="margin-top: 10px">
+
                         <div class="col-12" id="{{$new->id}}" style="padding-top: 5px">
                             @foreach($details as $detail)
                                 @if($detail->news_id==$new->id)
@@ -214,6 +221,24 @@
                         url: "/admin/deleteDetailsForm/" + detailsElementID,
                         success: function (data) {
                             document.getElementById(detailsElementID).remove();
+                        }
+                    });
+                });
+            });
+
+            $(document).ready(function () {
+                $("body").on('click', '.deleteNews', function () { // changed
+                    let newsElementID=this.lastElementChild.name;
+                    console.log(newsElementID);
+                    conn.send(newsElementID);
+                    //console.log($(this).closest("form")[0])
+                    $.ajax({
+                        type: "GET",
+                        url: "/admin/deleteNewsForm/" + newsElementID,
+                        success: function (data) {
+                            //ارسال آی دی اخبار تغییر کرده برای کلاینت ها
+                            conn.send(newsElementID);
+                            document.getElementById(newsElementID).remove();
                         }
                     });
                 });

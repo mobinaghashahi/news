@@ -1,9 +1,16 @@
 @foreach($news as $new)
-    <form method="post" name="enter">
+    <form method="post" name="enter" id="{{$new->id}}">
         @csrf
         <div class="col-12" style="justify-content: center;display: flex;color: #ff0000">
             <input type="text" name="id" value="{{$new->id}}" hidden>
             <div class="col-6 blockNews">
+                <div class="col-2">
+                    <a class="deleteNews" style="cursor: pointer">
+                        <img src="/logo/deleteRed.png" width="20" height="20" style="float: right">
+                        <input type="text" name="{{$new->id}}"
+                               value="{{$new->id}}" hidden>
+                    </a>
+                </div>
                 <div class="col-12 titleTextInput" style="display: flex;justify-content: center">
                     <div class="col-8">
                         <textarea id="text{{$new->id}}" name="text" class="inputText"

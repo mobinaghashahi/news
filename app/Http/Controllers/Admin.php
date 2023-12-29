@@ -7,6 +7,7 @@ use App\Models\News;
 use App\Models\Instrument;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use function PHPUnit\Framework\isNull;
 
 class Admin extends Controller
 {
@@ -114,6 +115,12 @@ class Admin extends Controller
     {
         deleteTagsByDetailsID($details_id);
         deleteDetailsByDetailsID($details_id);
+        return true;
+    }
+
+    public function deleteNewsForm($news_id)
+    {
+        News::where('id','=',$news_id)->delete();
         return true;
     }
 }
