@@ -25,7 +25,7 @@ class HomeController extends Controller
         $news=News::where('id','=',$news_id)->get();
 
         //برای دیلیت کردن اخبار
-        if(isNull($news))
+        if($news->count()==0)
             return null;
 
         return view('singleBlockNews', ['news' => $news,
