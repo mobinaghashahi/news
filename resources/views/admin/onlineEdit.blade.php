@@ -3,7 +3,7 @@
 
 
     @foreach($news as $new)
-        <form method="post" name="enter" id="{{$new->id}}">
+        <form method="post" name="enter" id="news_{{$new->id}}">
             @csrf
             <div class="col-12" style="justify-content: center;display: flex;color: #ff0000">
                 <input type="text" name="id" value="{{$new->id}}" hidden>
@@ -229,8 +229,8 @@
             $(document).ready(function () {
                 $("body").on('click', '.deleteNews', function () { // changed
                     let newsElementID=this.lastElementChild.name;
-                    console.log(newsElementID);
-                    conn.send(newsElementID);
+                    let newsElementNameID="news_"+newsElementID;
+                    console.log(newsElementNameID);
                     //console.log($(this).closest("form")[0])
                     $.ajax({
                         type: "GET",
@@ -238,7 +238,7 @@
                         success: function (data) {
                             //ارسال آی دی اخبار تغییر کرده برای کلاینت ها
                             conn.send(newsElementID);
-                            document.getElementById(newsElementID).remove();
+                            document.getElementById(newsElementNameID).remove();
                         }
                     });
                 });
