@@ -165,7 +165,7 @@
 
             let page = 1;
             $(window).scroll(function () {
-                if ($(document).height() - $(window).height() === $(document).scrollTop()) {
+                if ($(window).height() + $(document).scrollTop() +100 >= $(document).height()) {
                     $.ajax({
                         type: "GET",
                         url: "/admin/insertScrollNews/" + page,
