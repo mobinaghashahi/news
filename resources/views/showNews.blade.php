@@ -55,19 +55,25 @@
         }
 
         let page = 1;
+        let scrolling=false;
         $(window).scroll(function () {
 
             console.log("curent=" + $(document).scrollTop());
             console.log($(document).height() - $(window).height());
-            if ($(window).height() + $(document).scrollTop() +100 >= $(document).height()){
+            if ($(window).height() + $(document).scrollTop() +100 >= $(document).height()&& scrolling === false){
+                scrolling =true;
                 $.ajax({
                     type: "GET",
                     url: "/insertScrollNews/" + page,
                     success: function (data) {
                         page = page + 1;
                         $("body").append(data);
+                        scrolling=false;
                         /*console.log(element)
                         $(element).animate({backgroundColor: "#eeeeee"});*/
+                    },
+                    error: function () {
+                        scrolling=false;
                     }
                 });
             }
