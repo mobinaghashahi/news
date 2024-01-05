@@ -1,5 +1,5 @@
 @foreach($news as $new)
-    <form method="post" name="enter" id="{{$new->id}}">
+    <form method="post" name="enter" id="news_{{$new->id}}">
         @csrf
         <div class="col-12" style="justify-content: center;display: flex;color: #ff0000">
             <input type="text" name="id" value="{{$new->id}}" hidden>
