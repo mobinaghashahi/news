@@ -47,4 +47,6 @@ Route::prefix('/admin')->middleware([AdminMiddleware::class])->group(function ()
     Route::get('/deleteUser/{user_id}', [admin::class, 'deleteUser']);
     Route::get('/addUserForm', [admin::class, 'addUserForm']);
     Route::post('/addUser', [admin::class, 'addUser']);
+    Route::get('/editUserForm/{user_id}', [admin::class, 'editUserForm']);
+    Route::post('/editUser', [admin::class, 'editUser']);
 });

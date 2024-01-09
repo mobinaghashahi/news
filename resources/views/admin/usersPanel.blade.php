@@ -40,7 +40,7 @@
                                         <a href="/admin/deleteUser/{{$user->id}}"> <img src="/logo/deleteRed.png" width="15" height="15"></a>
                                     </div>
                                     <div class="col-6">
-                                        <a href="/admin/editUser/{{$user->id}}"> <img src="/logo/pen.png" width="15" height="15"></a>
+                                        <a href="/admin/editUserForm/{{$user->id}}"> <img src="/logo/pen.png" width="15" height="15"></a>
                                     </div>
                                 </td>
                             </tr>

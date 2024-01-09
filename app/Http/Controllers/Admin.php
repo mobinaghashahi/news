@@ -171,4 +171,29 @@ class Admin extends Controller
         $user->save();
         return redirect()->intended('admin/usersPanel')->with('msg','کاربر با موفقیت افزوده شد.');
     }
+
+    public function editUserForm($user_id)
+    {
+        return view('admin.editUserForm', ['user' => User::where('id','=',$user_id)->get()]);
+    }
+
+    public function editUser(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required',
+            'userName' => 'required',
+            'type' => 'required',
+            'userID' => 'required',
+        ]);
+
+        $user = User::findOrFail($request->userID);
+        $user->name=$request->name;
+        $user->userName=$request->userName;
+        $user->type=$request->type;
+
+        if(!empty($request->password))
+            $user->password=Hash::make($request->password);
+        $user->save();
+        return redirect()->intended('admin/editUserForm/'.$request->userID)->with('msg','کاربر با موفقیت ویرایش شد.');
+    }
 }
