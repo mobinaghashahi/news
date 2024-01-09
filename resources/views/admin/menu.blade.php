@@ -42,6 +42,13 @@
         <a href="/admin/exportAll">کلی</a>
         <a href="/admin/exportImportant">اخبار مهم</a>
     </div>
+    <button class="dropdown-btn">مدیریت کاربر
+        <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-container">
+        <a href="/admin/addUsers">افزودن کاربر</a>
+        <a href="/admin/usersPanel">مدیریت کاربر</a>
+    </div>
 
 
 

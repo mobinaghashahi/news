@@ -5,9 +5,11 @@ use App\Http\Controllers\SocketController;
 use App\Models\Details;
 use App\Models\News;
 use App\Models\Instrument;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use function PHPUnit\Framework\isNull;
+use Illuminate\Support\MessageBag;
 
 class Admin extends Controller
 {
@@ -122,5 +124,26 @@ class Admin extends Controller
     {
         News::where('id','=',$news_id)->delete();
         return true;
+    }
+
+    public function usersPanel()
+    {
+        return view('admin.usersPanel', ['users' => User::all()]);
+    }
+    public function deleteUser($user_id)
+    {
+        $user=User::findOrFail($user_id);
+        try {
+
+            $user->delete();
+
+        } catch (\Exception $e) {
+            $errors = new MessageBag([
+                'badRequest' => ['شما مجاز به انجام این عملیات نیستید.'],
+            ]);
+            return redirect()->intended('/admin/usersPanel')->with('errors', $errors);
+        }
+
+        return view('admin.usersPanel')->with('msg', 'کاربر با موفقیت حذف شد.');
     }
 }

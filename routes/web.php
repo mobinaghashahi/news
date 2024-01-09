@@ -42,4 +42,7 @@ Route::prefix('/admin')->middleware([AdminMiddleware::class])->group(function ()
 
     Route::get('/exportAll', [Export::class, 'exportAll']);
     Route::get('/exportImportant', [Export::class, 'exportImportant']);
+
+    Route::get('/usersPanel', [admin::class, 'usersPanel']);
+    Route::get('/deleteUser/{user_id}', [admin::class, 'deleteUser']);
 });
