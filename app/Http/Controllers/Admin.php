@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use function PHPUnit\Framework\isNull;
 use Illuminate\Support\MessageBag;
+use Illuminate\Support\Facades\Hash;
 
 class Admin extends Controller
 {
@@ -130,6 +131,7 @@ class Admin extends Controller
     {
         return view('admin.usersPanel', ['users' => User::all()]);
     }
+
     public function deleteUser($user_id)
     {
         $user=User::findOrFail($user_id);
@@ -144,6 +146,29 @@ class Admin extends Controller
             return redirect()->intended('/admin/usersPanel')->with('errors', $errors);
         }
 
-        return view('admin.usersPanel')->with('msg', 'کاربر با موفقیت حذف شد.');
+        return redirect()->intended('admin/usersPanel')->with('msg','کاربر با موفقیت حذف شد.');
+    }
+
+    public function addUserForm()
+    {
+        return view('admin.addUserForm');
+    }
+
+    public function addUser(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required',
+            'userName' => 'required|unique:users',
+            'password' => 'required',
+            'type' => 'required'
+        ]);
+
+        $user = new User();
+        $user->name= $request->name;
+        $user->userName= $request->userName;
+        $user->password= Hash::make($request->password);
+        $user->type= $request->type;
+        $user->save();
+        return redirect()->intended('admin/usersPanel')->with('msg','کاربر با موفقیت افزوده شد.');
     }
 }

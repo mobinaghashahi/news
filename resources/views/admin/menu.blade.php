@@ -46,7 +46,7 @@
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        <a href="/admin/addUsers">افزودن کاربر</a>
+        <a href="/admin/addUserForm">افزودن کاربر</a>
         <a href="/admin/usersPanel">مدیریت کاربر</a>
     </div>
 
