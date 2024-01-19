@@ -20,8 +20,8 @@ body{
 }
 .notification{
     z-index: 1;
-    direction: rtl;
-    text-align: right;
+    direction: ltr;
+    text-align: left;
     position: fixed;
     bottom: 5px;
     left: 5px;

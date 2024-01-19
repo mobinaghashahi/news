@@ -21,7 +21,7 @@ class loginController extends Controller
             return redirect()->intended('/'); //کاربر احراز هویت شده را با داشبورد منتقل می کنیم
         }
         return back()->withErrors([ //کاربر پیدا نشد و هنگام بازگشت به صفحه ورود خطا را نشان میدهیم
-            'username' => 'کاربری با این مشخصات وجود ندارد',
+            'username' => 'Your username or password is incorrect',
         ]);
     }
     public function loginView() //دریافت رگوئست ارسالی کاربر در صفحه ورود
