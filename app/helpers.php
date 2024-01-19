@@ -71,7 +71,7 @@ function retriveTags()
     foreach ($details as $detail) {
         foreach ($instruments as $instrument) {
             if ($instrument->details_id == $detail->id)
-                $tags .= " #" . $instrument->tag;
+                $tags .= " " . $instrument->tag;
         }
         $arrayTags[$detail->id] = $tags;
         $tags = "";
