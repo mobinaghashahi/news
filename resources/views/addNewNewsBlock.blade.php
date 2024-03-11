@@ -16,7 +16,7 @@
                     <div class="col-12" style="display:flex;justify-content: center">
                         <div class="col-11">
                             <div class="col-12">
-                                <a>INSTRUMENT:{{$tags[$detail->id]}}</a>
+                                <a>INSTRUMENT:{{$detail->instrument}}</a>
                             </div>
                             <div class="col-12">
                                 <a>EFFECT: <span

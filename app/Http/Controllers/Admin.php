@@ -45,6 +45,7 @@ class Admin extends Controller
         $details->effect = $request->effect;
         $details->comment = $request->comment;
         $details->news_id = $news->id;
+        $details->instrument = $request->instrument;
         //اگر تیک important زده شده بود مقدار یک را ذخیره میکنیم و اگر زده نشده بود مقدار 0
         if (isset($request->important))
             $details->important = 1;
@@ -53,9 +54,10 @@ class Admin extends Controller
         $details->save();
 
 
+        /*
         //ذخیره کردن هشتگ ها
         saveTags($request->instrument, $details->id);
-
+        */
 
         return redirect()->intended('/admin/addNews')->with('msg', 'خبر با موفقیت افزوده شد.');
 
@@ -63,8 +65,12 @@ class Admin extends Controller
 
     public function onlineEdit()
     {
-        return view('admin.onlineEdit', ['news' => News::all()->reverse()->take(5),
+        /*return view('admin.onlineEdit', ['news' => News::all()->reverse()->take(5),
             'tags' => retriveTags(),
+            'details' => Details::all(),
+            'lastDetailsID' => Details::orderBy('id')
+                ->get('id')->reverse()->first()]);*/
+        return view('admin.onlineEdit', ['news' => News::all()->reverse()->take(5),
             'details' => Details::all(),
             'lastDetailsID' => Details::orderBy('id')
                 ->get('id')->reverse()->first()]);
@@ -83,12 +89,14 @@ class Admin extends Controller
         $news->user_id = Auth::user()->id;
         $news->save();
 
+        /*
         //حذف کردن تگ ها قبلی خبر
         deleteTagsByNewsID($news->id);
+        */
 
         //ذخیره کردن details
         $news_id = $request->id;
-        saveDetails(splitFileds('important', $request), splitFileds('effect', $request), splitFileds('comment', $request), splitFileds('idDetails', $request), $news_id);
+        saveDetails(splitFileds('important', $request), splitFileds('effect', $request), splitFileds('comment', $request), splitFileds('idDetails', $request),splitFileds('instrument', $request), $news_id);
 
         //ذخیره کردن هشتگ ها
         $index=0;
@@ -104,8 +112,10 @@ class Admin extends Controller
 
     public function insertScrollNews($page)
     {
-        return view('admin.insertScrollNews', ['news' => News::all()->reverse()->skip($page * 5)->take(5),
+        /*return view('admin.insertScrollNews', ['news' => News::all()->reverse()->skip($page * 5)->take(5),
             'tags' => retriveTags(),
+            'details' => Details::all()]);*/
+        return view('admin.insertScrollNews', ['news' => News::all()->reverse()->skip($page * 5)->take(5),
             'details' => Details::all()]);
     }
 

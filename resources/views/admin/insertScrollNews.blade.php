@@ -44,7 +44,7 @@
                                         <div class="col-12">
                                             <a>INSTRUMENT:<input name="instrument_{{$detail->id}}" class="inputText"
                                                                  placeholder="INSTRUMENT"
-                                                                 value="{{glueTags($detail->id)}}"></a>
+                                                                 value="{{$detail->instrument}}"></a>
                                         </div>
                                         <div class="col-12">
                                             <a>EFFECT:</a>

@@ -37,9 +37,8 @@ function saveTags($instrument, $details_id)
     }
     return true;
 }
-function saveDetails($important,$effect,$comment,$details_id,$news_id)
+function saveDetails($important,$effect,$comment,$details_id,$instrument,$news_id)
 {
-
     foreach ($details_id as $key => $item){
         $detail=Details::find($item);
         //اگر جزئیات جود داشت آن را ویرایش میکنیم و اگر وجود نداشت یک جزئیات جدید میسازیم.
@@ -47,6 +46,7 @@ function saveDetails($important,$effect,$comment,$details_id,$news_id)
             $detail->important=$important[$key];
             $detail->effect=$effect[$key];
             $detail->comment=$comment[$key];
+            $detail->instrument=$instrument[$key];
             $detail->news_id=$news_id;
             $detail->save();
         }
@@ -55,6 +55,7 @@ function saveDetails($important,$effect,$comment,$details_id,$news_id)
             $details->important=$important[$key];
             $details->effect=$effect[$key];
             $details->comment=$comment[$key];
+            $details->instrument=$instrument[$key];
             $details->news_id=$news_id;
             $details->id=$item;
             $details->save();

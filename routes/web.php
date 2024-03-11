@@ -18,7 +18,7 @@ Route::get('/logout', [loginController::class, 'logout']);
 Route::get('/singleBlockNews/{news_id}', [HomeController::class, 'singleBlockNews']);
 Route::get('/addNewNewsBlock', [HomeController::class, 'addNewNewsBlock']);
 
-
+Route::get('/transfer', [HomeController::class, 'transferData']);
 
 
 

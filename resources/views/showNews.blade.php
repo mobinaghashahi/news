@@ -20,7 +20,7 @@
                                 <div class="col-12" style="display:flex;justify-content: center">
                                     <div class="col-11">
                                         <div class="col-12">
-                                            <a>INSTRUMENT:{{$tags[$detail->id]}}</a>
+                                            <a>INSTRUMENT:{{$detail->instrument}}</a>
                                         </div>
                                         <div class="col-12">
                                             <a>EFFECT: <span
@@ -88,7 +88,8 @@
             conn.onmessage = function (e) {
                 //console.log('newsMessage');
                 message = e.data;
-                if (message == "new") {
+                console.log(message)
+                if (message === "new") {
                     $.ajax({
                         type: "GET",
                         url: "/addNewNewsBlock",
@@ -96,7 +97,7 @@
                             //console.log('newsMessage');
                             //location.reload()
                             //document.getElementById(newsID).innerHTML=data;
-
+                            console.log("new NEWS")
                             $("#news").prepend(data);
                             //$(divID).replaceWith(data);
                             /*console.log(element)
@@ -105,6 +106,7 @@
                     });
                 } else {
                     var newsID = e.data
+                    console.log("newsID edite:" + newsID)
                     var divID = "#" + newsID;
                     $.ajax({
                         type: "GET",

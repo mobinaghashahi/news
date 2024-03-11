@@ -48,7 +48,7 @@
                                             <div class="col-12">
                                                 <a>INSTRUMENT:<input name="instrument_{{$detail->id}}" class="inputText"
                                                                      placeholder="INSTRUMENT"
-                                                                     value="{{glueTags($detail->id)}}"></a>
+                                                                     value="{{$detail->instrument}}"></a>
                                             </div>
                                             <div class="col-12">
                                                 <a>EFFECT:</a>
@@ -167,8 +167,8 @@
             let scrolling=false;
             $(window).scroll(function () {
 
-                console.log("curent=" + $(document).scrollTop());
-                console.log($(document).height() - $(window).height());
+                //console.log("curent=" + $(document).scrollTop());
+                //console.log($(document).height() - $(window).height());
                 if ($(window).height() + $(document).scrollTop() +100 >= $(document).height()&& scrolling === false){
                     scrolling =true;
                     $.ajax({
@@ -221,14 +221,15 @@
             $(document).ready(function () {
                 $("body").on('click', '.delete', function () { // changed
                     console.log(this.lastElementChild.name)
-                    //ارسال آی دی اخبار تغییر کرده برای کلاینت ها
-                    conn.send($(this).closest("form")[0][1].value);
+                    newsID=$(this).closest("form")[0][1].value
                     let detailsElementID=this.lastElementChild.name;
                     $.ajax({
                         type: "GET",
                         url: "/admin/deleteDetailsForm/" + detailsElementID,
                         success: function (data) {
                             document.getElementById(detailsElementID).remove();
+                            //ارسال آی دی اخبار تغییر کرده برای کلاینت ها
+                            conn.send(newsID);
                         }
                     });
                 });
