@@ -14,8 +14,10 @@ class HomeController extends Controller
         /*return view('showNews', ['news' => News::all()->reverse()->take(5),
             'tags'=>retriveTags(),
             'details'=>Details::all()]);*/
-        return view('showNews', ['news' => News::all()->reverse()->take(5),
-            'details'=>Details::all()]);
+        $news=News::all()->reverse()->take(5);
+        return view('showNews', ['news' => $news,
+            'details'=>Details::all(),
+            'newsHash'=>sha1($news)]);
     }
     public function insertNews($page){
         /*return view('insertScrollNews', ['news' => News::all()->reverse()->skip($page*5)->take(5),
@@ -23,7 +25,6 @@ class HomeController extends Controller
             'details'=>Details::all()]);*/
         return view('insertScrollNews', ['news' => News::all()->reverse()->skip($page*5)->take(5),
             'details'=>Details::all()]);
-        retriveTags();
     }
     public function singleBlockNews($news_id)
     {
@@ -46,6 +47,12 @@ class HomeController extends Controller
         return view('singleBlockNews', ['news' => $news,
             'details'=>Details::all()]);
 
+    }
+    public function multiBlockNews($page)
+    {
+        $page=$page+1;
+        return view('multiBlockNews', ['news' => News::all()->reverse()->take($page*5),
+            'details'=>Details::all()]);
     }
 
     public function addNewNewsBlock()
@@ -75,5 +82,9 @@ class HomeController extends Controller
             $news->instrument=$detail->tag;
             $news->save();
         }*/
+    }
+    public function getNewsHash($page){
+        $news=News::all()->reverse()->take($page*5);
+        return sha1($news);
     }
 }

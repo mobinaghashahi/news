@@ -16,7 +16,9 @@ Route::get('/login', [loginController::class, 'loginView'])->name('login')->midd
 Route::post('/login', [loginController::class, 'login']); //روت پست اطلاعات فرم ورود
 Route::get('/logout', [loginController::class, 'logout']);
 Route::get('/singleBlockNews/{news_id}', [HomeController::class, 'singleBlockNews']);
+Route::get('/multiBlockNews/{page}', [HomeController::class, 'multiBlockNews']);
 Route::get('/addNewNewsBlock', [HomeController::class, 'addNewNewsBlock']);
+Route::get('/newsHash/{page}', [HomeController::class, 'getNewsHash']);
 
 Route::get('/transfer', [HomeController::class, 'transferData']);
 

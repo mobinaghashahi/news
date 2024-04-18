@@ -54,20 +54,20 @@
             snd.play();
         }
 
+        //get hash for check news change when connection is faild
+        let hashNews={!! json_encode($newsHash) !!};
         let page = 1;
         let scrolling=false;
         $(window).scroll(function () {
-
-            console.log("curent=" + $(document).scrollTop());
-            console.log($(document).height() - $(window).height());
             if ($(window).height() + $(document).scrollTop() +100 >= $(document).height()&& scrolling === false){
+                //get new news blocks
                 scrolling =true;
                 $.ajax({
                     type: "GET",
                     url: "/insertScrollNews/" + page,
                     success: function (data) {
                         page = page + 1;
-                        $("body").append(data);
+                        $("#news").append(data);
                         scrolling=false;
                         /*console.log(element)
                         $(element).animate({backgroundColor: "#eeeeee"});*/
@@ -84,6 +84,31 @@
             var conn = new ReconnectingWebSocket('ws://82.115.16.178:1020');
             conn.onopen = function (e) {
                 console.log("Connection stablished");
+                $.ajax({
+                    type: "GET",
+                    url: "/newsHash/" + page,
+                    success: function (data) {
+                        if (hashNews!=data){
+                            $.ajax({
+                                type: "GET",
+                                url: "/multiBlockNews/" + page,
+                                success: function (data) {
+                                    $("#news").replaceWith(data);
+                                    /*console.log(element)
+                                    $(element).animate({backgroundColor: "#eeeeee"});*/
+                                },
+                                error: function () {
+                                    scrolling=false;
+                                }
+                            });
+                        }
+                        /*console.log(element)
+                        $(element).animate({backgroundColor: "#eeeeee"});*/
+                    },
+                    error: function () {
+                        scrolling=false;
+                    }
+                });
             }
             conn.onmessage = function (e) {
                 //console.log('newsMessage');
