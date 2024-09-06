@@ -100,34 +100,7 @@
 
         $(document).ready(function () {
             var conn = new ReconnectingWebSocket('ws://82.115.16.178:1020');
-            conn.onopen = function (e) {
-                console.log("Connection stablished");
-                $.ajax({
-                    type: "GET",
-                    url: "/newsHash/" + page,
-                    success: function (data) {
-                        if (hashNews != data) {
-                            $.ajax({
-                                type: "GET",
-                                url: "/multiBlockNews/" + page,
-                                success: function (data) {
-                                    $("#news").replaceWith(data);
-                                    /*console.log(element)
-                                    $(element).animate({backgroundColor: "#eeeeee"});*/
-                                },
-                                error: function () {
-                                    scrolling = false;
-                                }
-                            });
-                        }
-                        /*console.log(element)
-                        $(element).animate({backgroundColor: "#eeeeee"});*/
-                    },
-                    error: function () {
-                        scrolling = false;
-                    }
-                });
-            }
+            
             conn.onmessage = function (e) {
                 //console.log('newsMessage');
                 message = e.data;
