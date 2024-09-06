@@ -150,3 +150,32 @@ select option{
     word-wrap: break-word;
     text-align: justify;
 }
+
+.hidden-div {
+    display: none;
+}
+.rotated {
+    transform: rotate(210deg);
+}
+.toggle-icon {
+    transition: transform 0.5s ease;
+    cursor: pointer;
+}
+.divFilter{
+    justify-content: center;
+    display: flex;
+    margin-top: 10px;
+}
+.titlesFilter{
+    margin: 10px 0px 10px 0px;
+    display: flex;
+    justify-content: center;
+    background-color: #ffffff;
+    border-radius: 4px;
+}
+.checkBoxFilters{
+    display: inline;
+    margin: 5px 0px 5px 0px;
+    line-height: 0px;
+    float: left;
+}
