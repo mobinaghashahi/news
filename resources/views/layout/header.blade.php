@@ -14,7 +14,7 @@
     <meta name="author" content="Payam Paydar">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/css/style.css?v=5.1" rel="stylesheet">
+    <link href="/css/style.css?v=5.2" rel="stylesheet">
     <script src="/js/jquery.min.js"></script>
     <script src="/js/reconnecting-websocket.js"></script>
     <!-- لینک به کتابخانه Font Awesome -->

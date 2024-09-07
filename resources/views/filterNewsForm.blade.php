@@ -58,9 +58,8 @@
                     </div>
 
                 </div>
-                <div class="col-12">
-                    <input type="submit" name="applyFilters" value="Apply"
-                           style="background-color: #0d1117;border: none;border-radius: 5px;margin: 5px;padding: 5px;color: white;cursor: pointer">
+                <div class="col-12" style="justify-content: center;display: flex">
+                    <input class="btnApplyFilters" type="submit" name="applyFilters" value="Apply">
                 </div>
             </div>
         </form>
