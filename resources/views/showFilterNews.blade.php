@@ -17,7 +17,7 @@
             </div>
             <div class="col-12">
                 <div style="float: left;margin: 10px 5px;width: 15%;padding-bottom: 10px">
-                    <a style="background-color: white;border: 3px solid #a60000;padding: 5px;border-radius: 10px;">
+                    <a style="background-color: white;padding: 5px;border-radius: 10px;">
                         Important&nbsp;state&nbsp;:&nbsp;{{$lastImportantState}}
                     </a>
                 </div>
