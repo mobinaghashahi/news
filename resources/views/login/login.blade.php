@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('content')
-    <div class="col-12" style="display: flex;justify-content: center;">
+    <div class="col-12" style="display: flex;justify-content: center;user-select: none">
         <div class="col-3 loginForm" style="padding: 50px 0px 50px 0px">
             @if (\Session::has('msg'))
                 <div class="notification notificationSuccess">
