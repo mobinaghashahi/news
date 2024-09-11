@@ -11,7 +11,10 @@ use function PHPUnit\Framework\isNull;
 class HomeController extends Controller
 {
     public function showHomePage(){
-        $news=News::all()->reverse()->take(20);
+        $news = News::all()->reverse()->take(20); // گرفتن 20 خبر آخر
+        $newsIds = $news->pluck('id'); // استخراج شناسه‌های اخبار
+        $details = Details::whereIn('news_id', $newsIds)->get(); // فیلتر کردن details بر اساس شناسه‌های اخبار
+
         //use for checkbox filters
         $instruments=Details::whereNot('instrument','=','')
             ->select('instrument')
@@ -19,7 +22,7 @@ class HomeController extends Controller
             ->get();
 
         return view('showNews', ['news' => $news,
-            'details'=>Details::all(),
+            'details'=>$details,
             'newsHash'=>sha1($news),
             'lastInstrumentsFilters'=>[],
             'lastImportantState'=>'both',
@@ -29,8 +32,11 @@ class HomeController extends Controller
         /*return view('insertScrollNews', ['news' => News::all()->reverse()->skip($page*5)->take(5),
             'tags'=>retriveTags(),
             'details'=>Details::all()]);*/
-        return view('insertScrollNews', ['news' => News::all()->reverse()->skip($page*20)->take(20),
-            'details'=>Details::all()]);
+        $news = News::all()->reverse()->skip($page*20)->take(20);
+        $newsIds = $news->pluck('id'); // استخراج شناسه‌های اخبار
+        $details = Details::whereIn('news_id', $newsIds)->get(); // فیلتر کردن details بر اساس شناسه‌های اخبار
+        return view('insertScrollNews', ['news' => $news,
+            'details'=>$details]);
     }
 
     public function showFilterNews(Request $request){
@@ -50,7 +56,7 @@ class HomeController extends Controller
         //جداسازی دو حالت برای اخبار مهم، غیر مهم و هردو اخبار مهم و غیر مهم
         if($request->important=='both'){
             $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
-                ->select('news.id as id','news.text as text','news.created_at as created_at')
+                ->select('news.id as id','news.text as text','news.created_at as created_at','news.title as title')
                 ->whereIn('details.instrument', $lastInstrumentsFilters) // اعمال شرط بر روی instruments
                 ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
                 ->take(20) // گرفتن 20 رکورد
@@ -59,16 +65,17 @@ class HomeController extends Controller
         else if($request->important=='important' OR $request->important=='notImportant'){
             $important=['important'=>1,'notImportant'=>0];
             $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
-                ->select('news.id as id','news.text as text','news.created_at as created_at')
+                ->select('news.id as id','news.text as text','news.created_at as created_at','news.title as title')
                 ->whereIn('details.instrument', $lastInstrumentsFilters) // اعمال شرط بر روی instruments
                 ->where('details.important', $important[$request->important])// اعمال شرط برای important
                 ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
                 ->take(20) // گرفتن 20 رکورد
                 ->get(); // اجرا و دریافت نتایج
         }
-
+        $newsIds = $filteredNews->pluck('id'); // استخراج شناسه‌های اخبار
+        $details = Details::whereIn('news_id', $newsIds)->get(); // فیلتر کردن details بر اساس شناسه‌های اخبار
         return view('showFilterNews', ['news' => $filteredNews,
-            'details'=>Details::all(),
+            'details'=>$details,
             'newsHash'=>sha1($filteredNews),
             'lastInstrumentsFilters'=>$lastInstrumentsFilters,
             'lastImportantState'=>$lastImportantState,
@@ -84,7 +91,7 @@ class HomeController extends Controller
         //جداسازی دو حالت برای اخبار مهم، غیر مهم و هردو اخبار مهم و غیر مهم
         if($request->important=='both'){
             $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
-                ->select('news.id as id','news.text as text','news.created_at as created_at')
+                ->select('news.id as id','news.text as text','news.created_at as created_at','news.title as title')
                 ->whereIn('details.instrument', $lastInstrumentsFilters) // اعمال شرط بر روی instruments
                 ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
                 ->take(20) // گرفتن 20 رکورد
@@ -94,7 +101,7 @@ class HomeController extends Controller
         else if($request->important=='important' OR $request->important=='notImportant'){
             $important=['important'=>1,'notImportant'=>0];
             $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
-                ->select('news.id as id','news.text as text','news.created_at as created_at')
+                ->select('news.id as id','news.text as text','news.created_at as created_at','news.title as title')
                 ->whereIn('details.instrument', $lastInstrumentsFilters) // اعمال شرط بر روی instruments
                 ->where('details.important', $important[$request->important])// اعمال شرط برای important
                 ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
@@ -102,9 +109,11 @@ class HomeController extends Controller
                 ->take(20) // گرفتن 20 رکورد
                 ->get(); // اجرا و دریافت نتایج
         }
+        $newsIds = $filteredNews->pluck('id'); // استخراج شناسه‌های اخبار
+        $details = Details::whereIn('news_id', $newsIds)->get(); // فیلتر کردن details بر اساس شناسه‌های اخبار
 
         return view('insertScrollNewsWhitFilters', ['news' => $filteredNews,
-            'details'=>Details::all()]);
+            'details'=>$details]);
     }
 
     public function singleBlockNews($news_id)
