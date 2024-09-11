@@ -11,7 +11,7 @@ use function PHPUnit\Framework\isNull;
 class HomeController extends Controller
 {
     public function showHomePage(){
-        $news=News::all()->reverse()->take(5);
+        $news=News::all()->reverse()->take(20);
         //use for checkbox filters
         $instruments=Details::whereNot('instrument','=','')
             ->select('instrument')
@@ -29,7 +29,7 @@ class HomeController extends Controller
         /*return view('insertScrollNews', ['news' => News::all()->reverse()->skip($page*5)->take(5),
             'tags'=>retriveTags(),
             'details'=>Details::all()]);*/
-        return view('insertScrollNews', ['news' => News::all()->reverse()->skip($page*5)->take(5),
+        return view('insertScrollNews', ['news' => News::all()->reverse()->skip($page*20)->take(20),
             'details'=>Details::all()]);
     }
 
@@ -88,7 +88,7 @@ class HomeController extends Controller
                 ->whereIn('details.instrument', $lastInstrumentsFilters) // اعمال شرط بر روی instruments
                 ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
                 ->take(20) // گرفتن 20 رکورد
-                ->skip($request->page*5)
+                ->skip($request->page*20)
                 ->get(); // اجرا و دریافت نتایج
         }
         else if($request->important=='important' OR $request->important=='notImportant'){
@@ -98,7 +98,7 @@ class HomeController extends Controller
                 ->whereIn('details.instrument', $lastInstrumentsFilters) // اعمال شرط بر روی instruments
                 ->where('details.important', $important[$request->important])// اعمال شرط برای important
                 ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
-                ->skip($request->page*5)
+                ->skip($request->page*20)
                 ->take(20) // گرفتن 20 رکورد
                 ->get(); // اجرا و دریافت نتایج
         }

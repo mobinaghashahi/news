@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('content')
-    @include('filterNewsForm')
+    @include('filterNewsForm',["url" => "/filter"])
     <div id="news">
         @foreach($news as $new)
             <div class="col-12" id="{{$new->id}}" style="justify-content: center;display: flex;">

@@ -42,7 +42,7 @@ Route::prefix('/admin')->middleware([AdminMiddleware::class])->group(function ()
     Route::get('/deleteDetailsForm/{details_id}', [admin::class, 'deleteDetailsForm']);
     Route::get('/deleteNewsForm/{news_id}', [admin::class, 'deleteNewsForm']);
 
-    Route::get('/insertScrollNews/{page}', [admin::class, 'insertScrollNews']);
+    Route::get('/insertScrollNews', [admin::class, 'insertScrollNews']);
 
     Route::get('/exportAll', [Export::class, 'exportAll']);
     Route::get('/exportImportant', [Export::class, 'exportImportant']);

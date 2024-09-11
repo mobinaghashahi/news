@@ -1,7 +1,7 @@
 <div class="col-12 divFilter">
     <div class="col-6"
          style="background-color: #595959;padding: 10px;border-radius: 10px;user-select: none;">
-        <form method="get" action="/filter">
+        <form method="get" action="{{url($url)}}">
             <div id="toggleText" class="col-12" style="text-align: center;">
                     <span id="toggleText"
                           style="text-align: center;color: whitesmoke;font-weight: bolder;cursor: pointer">Filter NEWS</span>

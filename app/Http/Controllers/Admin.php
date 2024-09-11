@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Controllers\SocketController;
 use App\Models\Details;
 use App\Models\News;
@@ -8,6 +9,7 @@ use App\Models\Instrument;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use function PHPUnit\Framework\isEmpty;
 use function PHPUnit\Framework\isNull;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\Hash;
@@ -63,17 +65,76 @@ class Admin extends Controller
 
     }
 
-    public function onlineEdit()
+    public function onlineEdit(Request $request)
     {
+        // آرایه‌ای از مقادیر instruments که می‌خواهید فیلتر کنید
+        $Filters = array_keys($request->all()); // مقادیر فیلتر ارسال شده از فرم فیلتر
+        $keysToExpect = ['applyFilters', 'important'];
+        $lastInstrumentsFilters = array_diff($Filters, $keysToExpect);
+        $lastImportantState = $request->important;
+        //without choice any instruments
+        if (empty($lastInstrumentsFilters)) {
+            //if user choice both (important and notImportant)
+            if ($request->important == 'both' or empty($request->important)) {
+                $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
+                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at')
+                    ->groupBy('news.id', 'news.text', 'news.created_at')
+                    ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
+                    ->take(20) // گرفتن 20 رکورد
+                    ->get(); // اجرا و دریافت نتایج
+
+            } //if user choice one of important OR notImportant
+            else if ($request->important == 'important' or $request->important == 'notImportant') {
+                $important = ['important' => 1, 'notImportant' => 0];
+                $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
+                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at')
+                    ->where('details.important', $important[$request->important])// اعمال شرط برای important
+                    ->groupBy('news.id', 'news.text', 'news.created_at')
+                    ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
+                    ->take(20) // گرفتن 20 رکورد
+                    ->get(); // اجرا و دریافت نتایج
+            }
+        } elseif (!empty($lastInstrumentsFilters)) {
+            //if user choice both (important and notImportant)
+            if ($request->important == 'both' or empty($request->important)) {
+                $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
+                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at')
+                    ->whereIn('details.instrument', $lastInstrumentsFilters) // اعمال شرط بر روی instruments
+                    ->groupBy('news.id', 'news.text', 'news.created_at')
+                    ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
+                    ->take(20) // گرفتن 20 رکورد
+                    ->get(); // اجرا و دریافت نتایج
+            } //if user choice one of important OR notImportant
+            else if ($request->important == 'important' or $request->important == 'notImportant') {
+                $important = ['important' => 1, 'notImportant' => 0];
+                $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
+                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at')
+                    ->whereIn('details.instrument', $lastInstrumentsFilters) // اعمال شرط بر روی instruments
+                    ->where('details.important', $important[$request->important])// اعمال شرط برای important
+                    ->groupBy('news.id', 'news.text', 'news.created_at')
+                    ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
+                    ->take(20) // گرفتن 20 رکورد
+                    ->get(); // اجرا و دریافت نتایج
+            }
+        }
         /*return view('admin.onlineEdit', ['news' => News::all()->reverse()->take(5),
             'tags' => retriveTags(),
             'details' => Details::all(),
             'lastDetailsID' => Details::orderBy('id')
                 ->get('id')->reverse()->first()]);*/
-        return view('admin.onlineEdit', ['news' => News::all()->reverse()->take(5),
+        return view('admin.onlineEdit', ['news' => $filteredNews,
             'details' => Details::all(),
+            'lastInstrumentsFilters' => $lastInstrumentsFilters,
+            'lastImportantState' => $lastImportantState,
             'lastDetailsID' => Details::orderBy('id')
-                ->get('id')->reverse()->first()]);
+                ->get('id')
+                ->reverse()
+                ->first(),
+            'instruments' => Details::whereNot('instrument', '=', '')
+                ->select('instrument')
+                ->groupBy('instrument')
+                ->get()
+        ]);
     }
 
     public function editNews(Request $request)
@@ -96,10 +157,10 @@ class Admin extends Controller
 
         //ذخیره کردن details
         $news_id = $request->id;
-        saveDetails(splitFileds('important', $request), splitFileds('effect', $request), splitFileds('comment', $request), splitFileds('idDetails', $request),splitFileds('instrument', $request), $news_id);
+        saveDetails(splitFileds('important', $request), splitFileds('effect', $request), splitFileds('comment', $request), splitFileds('idDetails', $request), splitFileds('instrument', $request), $news_id);
 
         //ذخیره کردن هشتگ ها
-        $index=0;
+        $index = 0;
         $instrumentsArray = splitFileds('instrument', $request);
         foreach ($instrumentsArray as $instrument) {
             saveTags($instrument, splitFileds('idDetails', $request)[$index]);
@@ -110,12 +171,65 @@ class Admin extends Controller
         return redirect()->intended('/admin/onlineEdit')->with('msg', 'خبر با موفقیت افزوده شد.');
     }
 
-    public function insertScrollNews($page)
+    public function insertScrollNews(Request $request)
     {
+        // آرایه‌ای از مقادیر instruments که می‌خواهید فیلتر کنید
+        $Filters = array_keys($request->all()); // مقادیر فیلتر ارسال شده از فرم فیلتر
+        $keysToExpect=['applyFilters','important','page'];
+        $lastInstrumentsFilters=array_diff($Filters, $keysToExpect);
+        $lastImportantState=$request->important;
+        //without choice any instruments
+        if (empty($lastInstrumentsFilters)) {
+            //if user choice both (important and notImportant)
+            if ($request->important == 'both' or $lastImportantState=="null") {
+                $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
+                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at')
+                    ->groupBy('news.id', 'news.text', 'news.created_at')
+                    ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
+                    ->skip($request->page*20)
+                    ->take(20) // گرفتن 20 رکورد
+                    ->get(); // اجرا و دریافت نتایج
+            } //if user choice one of important OR notImportant
+            else if ($lastImportantState == 'important' or $lastImportantState == 'notImportant') {
+                $important = ['important' => 1, 'notImportant' => 0];
+                $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
+                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at')
+                    ->where('details.important', $important[$lastImportantState])// اعمال شرط برای important
+                    ->groupBy('news.id', 'news.text', 'news.created_at')
+                    ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
+                    ->skip($request->page*20)
+                    ->take(20) // گرفتن 20 رکورد
+                    ->get(); // اجرا و دریافت نتایج
+            }
+        } elseif (!empty($lastInstrumentsFilters)) {
+            //if user choice both (important and notImportant)
+            if ($lastImportantState == 'both' or $lastImportantState=="null") {
+                $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
+                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at')
+                    ->whereIn('details.instrument', $lastInstrumentsFilters) // اعمال شرط بر روی instruments
+                    ->groupBy('news.id', 'news.text', 'news.created_at')
+                    ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
+                    ->skip($request->page*20)
+                    ->take(20) // گرفتن 20 رکورد
+                    ->get(); // اجرا و دریافت نتایج
+            } //if user choice one of important OR notImportant
+            else if ($lastImportantState == 'important' or $lastImportantState == 'notImportant') {
+                $important = ['important' => 1, 'notImportant' => 0];
+                $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
+                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at')
+                    ->whereIn('details.instrument', $lastInstrumentsFilters) // اعمال شرط بر روی instruments
+                    ->where('details.important', $important[$lastImportantState])// اعمال شرط برای important
+                    ->groupBy('news.id', 'news.text', 'news.created_at')
+                    ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
+                    ->skip($request->page*20)
+                    ->take(20) // گرفتن 20 رکورد
+                    ->get(); // اجرا و دریافت نتایج
+            }
+        }
         /*return view('admin.insertScrollNews', ['news' => News::all()->reverse()->skip($page * 5)->take(5),
             'tags' => retriveTags(),
             'details' => Details::all()]);*/
-        return view('admin.insertScrollNews', ['news' => News::all()->reverse()->skip($page * 5)->take(5),
+        return view('admin.insertScrollNews', ['news' => $filteredNews,
             'details' => Details::all()]);
     }
 
@@ -133,7 +247,7 @@ class Admin extends Controller
 
     public function deleteNewsForm($news_id)
     {
-        News::where('id','=',$news_id)->delete();
+        News::where('id', '=', $news_id)->delete();
         return true;
     }
 
@@ -144,7 +258,7 @@ class Admin extends Controller
 
     public function deleteUser($user_id)
     {
-        $user=User::findOrFail($user_id);
+        $user = User::findOrFail($user_id);
         try {
 
             $user->delete();
@@ -156,7 +270,7 @@ class Admin extends Controller
             return redirect()->intended('/admin/usersPanel')->with('errors', $errors);
         }
 
-        return redirect()->intended('admin/usersPanel')->with('msg','کاربر با موفقیت حذف شد.');
+        return redirect()->intended('admin/usersPanel')->with('msg', 'کاربر با موفقیت حذف شد.');
     }
 
     public function addUserForm()
@@ -174,17 +288,17 @@ class Admin extends Controller
         ]);
 
         $user = new User();
-        $user->name= $request->name;
-        $user->userName= $request->userName;
-        $user->password= Hash::make($request->password);
-        $user->type= $request->type;
+        $user->name = $request->name;
+        $user->userName = $request->userName;
+        $user->password = Hash::make($request->password);
+        $user->type = $request->type;
         $user->save();
-        return redirect()->intended('admin/usersPanel')->with('msg','کاربر با موفقیت افزوده شد.');
+        return redirect()->intended('admin/usersPanel')->with('msg', 'کاربر با موفقیت افزوده شد.');
     }
 
     public function editUserForm($user_id)
     {
-        return view('admin.editUserForm', ['user' => User::where('id','=',$user_id)->get()]);
+        return view('admin.editUserForm', ['user' => User::where('id', '=', $user_id)->get()]);
     }
 
     public function editUser(Request $request)
@@ -197,13 +311,13 @@ class Admin extends Controller
         ]);
 
         $user = User::findOrFail($request->userID);
-        $user->name=$request->name;
-        $user->userName=$request->userName;
-        $user->type=$request->type;
+        $user->name = $request->name;
+        $user->userName = $request->userName;
+        $user->type = $request->type;
 
-        if(!empty($request->password))
-            $user->password=Hash::make($request->password);
+        if (!empty($request->password))
+            $user->password = Hash::make($request->password);
         $user->save();
-        return redirect()->intended('admin/editUserForm/'.$request->userID)->with('msg','کاربر با موفقیت ویرایش شد.');
+        return redirect()->intended('admin/editUserForm/' . $request->userID)->with('msg', 'کاربر با موفقیت ویرایش شد.');
     }
 }

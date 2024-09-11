@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('content')
-    @include('filterNewsForm')
+    @include('filterNewsForm',["url" => "/filter"])
     <div class="col-12" style="display: flex;justify-content: center;padding: 10px 0px 0px 0px">
         <div class="col-6" style="background-color: #939393;padding: 10px;border-radius: 10px">
             <div class="col-12">
@@ -113,6 +113,8 @@
                     url: "/insertScrollNewsWhitFilters/" + urlFiltersAndPageNumber,
                     success: function (data) {
                         page = page + 1;
+                        //replace page number increased instead old page number
+                        urlFiltersAndPageNumber = urlFiltersAndPageNumber.replace(/(\d+)(?=&[^&=]*$|$)/, page); // جایگزینی عدد انتهایی با رشته خالی
                         $("#news").append(data);
                         scrolling = false;
                         /*console.log(element)
