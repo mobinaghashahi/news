@@ -77,8 +77,7 @@ class Admin extends Controller
             //if user choice both (important and notImportant)
             if ($request->important == 'both' or empty($request->important)) {
                 $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
-                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at')
-                    ->groupBy('news.id', 'news.text', 'news.created_at')
+                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at', 'news.title as title')
                     ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
                     ->take(20) // گرفتن 20 رکورد
                     ->get(); // اجرا و دریافت نتایج
@@ -87,9 +86,8 @@ class Admin extends Controller
             else if ($request->important == 'important' or $request->important == 'notImportant') {
                 $important = ['important' => 1, 'notImportant' => 0];
                 $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
-                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at')
+                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at', 'news.title as title')
                     ->where('details.important', $important[$request->important])// اعمال شرط برای important
-                    ->groupBy('news.id', 'news.text', 'news.created_at')
                     ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
                     ->take(20) // گرفتن 20 رکورد
                     ->get(); // اجرا و دریافت نتایج
@@ -98,9 +96,8 @@ class Admin extends Controller
             //if user choice both (important and notImportant)
             if ($request->important == 'both' or empty($request->important)) {
                 $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
-                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at')
+                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at', 'news.title as title')
                     ->whereIn('details.instrument', $lastInstrumentsFilters) // اعمال شرط بر روی instruments
-                    ->groupBy('news.id', 'news.text', 'news.created_at')
                     ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
                     ->take(20) // گرفتن 20 رکورد
                     ->get(); // اجرا و دریافت نتایج
@@ -108,10 +105,9 @@ class Admin extends Controller
             else if ($request->important == 'important' or $request->important == 'notImportant') {
                 $important = ['important' => 1, 'notImportant' => 0];
                 $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
-                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at')
+                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at', 'news.title as title')
                     ->whereIn('details.instrument', $lastInstrumentsFilters) // اعمال شرط بر روی instruments
                     ->where('details.important', $important[$request->important])// اعمال شرط برای important
-                    ->groupBy('news.id', 'news.text', 'news.created_at')
                     ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
                     ->take(20) // گرفتن 20 رکورد
                     ->get(); // اجرا و دریافت نتایج
@@ -183,8 +179,7 @@ class Admin extends Controller
             //if user choice both (important and notImportant)
             if ($request->important == 'both' or $lastImportantState=="null") {
                 $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
-                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at')
-                    ->groupBy('news.id', 'news.text', 'news.created_at')
+                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at', 'news.title as title')
                     ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
                     ->skip($request->page*20)
                     ->take(20) // گرفتن 20 رکورد
@@ -193,9 +188,8 @@ class Admin extends Controller
             else if ($lastImportantState == 'important' or $lastImportantState == 'notImportant') {
                 $important = ['important' => 1, 'notImportant' => 0];
                 $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
-                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at')
+                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at', 'news.title as title')
                     ->where('details.important', $important[$lastImportantState])// اعمال شرط برای important
-                    ->groupBy('news.id', 'news.text', 'news.created_at')
                     ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
                     ->skip($request->page*20)
                     ->take(20) // گرفتن 20 رکورد
@@ -205,9 +199,8 @@ class Admin extends Controller
             //if user choice both (important and notImportant)
             if ($lastImportantState == 'both' or $lastImportantState=="null") {
                 $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
-                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at')
+                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at', 'news.title as title')
                     ->whereIn('details.instrument', $lastInstrumentsFilters) // اعمال شرط بر روی instruments
-                    ->groupBy('news.id', 'news.text', 'news.created_at')
                     ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
                     ->skip($request->page*20)
                     ->take(20) // گرفتن 20 رکورد
@@ -216,10 +209,9 @@ class Admin extends Controller
             else if ($lastImportantState == 'important' or $lastImportantState == 'notImportant') {
                 $important = ['important' => 1, 'notImportant' => 0];
                 $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
-                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at')
+                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at', 'news.title as title')
                     ->whereIn('details.instrument', $lastInstrumentsFilters) // اعمال شرط بر روی instruments
                     ->where('details.important', $important[$lastImportantState])// اعمال شرط برای important
-                    ->groupBy('news.id', 'news.text', 'news.created_at')
                     ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
                     ->skip($request->page*20)
                     ->take(20) // گرفتن 20 رکورد
