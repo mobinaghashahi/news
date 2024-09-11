@@ -113,13 +113,15 @@ class Admin extends Controller
                     ->get(); // اجرا و دریافت نتایج
             }
         }
+        $newsIds = $filteredNews->pluck('id'); // استخراج شناسه‌های اخبار
+        $details = Details::whereIn('news_id', $newsIds)->get(); // فیلتر کردن details بر اساس شناسه‌های اخبار
         /*return view('admin.onlineEdit', ['news' => News::all()->reverse()->take(5),
             'tags' => retriveTags(),
             'details' => Details::all(),
             'lastDetailsID' => Details::orderBy('id')
                 ->get('id')->reverse()->first()]);*/
         return view('admin.onlineEdit', ['news' => $filteredNews,
-            'details' => Details::all(),
+            'details' => $details,
             'lastInstrumentsFilters' => $lastInstrumentsFilters,
             'lastImportantState' => $lastImportantState,
             'lastDetailsID' => Details::orderBy('id')
@@ -218,11 +220,13 @@ class Admin extends Controller
                     ->get(); // اجرا و دریافت نتایج
             }
         }
+        $newsIds = $filteredNews->pluck('id'); // استخراج شناسه‌های اخبار
+        $details = Details::whereIn('news_id', $newsIds)->get(); // فیلتر کردن details بر اساس شناسه‌های اخبار
         /*return view('admin.insertScrollNews', ['news' => News::all()->reverse()->skip($page * 5)->take(5),
             'tags' => retriveTags(),
             'details' => Details::all()]);*/
         return view('admin.insertScrollNews', ['news' => $filteredNews,
-            'details' => Details::all()]);
+            'details' => $details]);
     }
 
     public function addDetailsForm($details_id)
