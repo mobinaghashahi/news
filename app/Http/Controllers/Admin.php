@@ -76,12 +76,10 @@ class Admin extends Controller
         if (empty($lastInstrumentsFilters)) {
             //if user choice both (important and notImportant)
             if ($request->important == 'both' or empty($request->important)) {
-                $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
-                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at', 'news.title as title')
+                $filteredNews = News::select('news.id as id', 'news.text as text', 'news.created_at as created_at', 'news.title as title')
                     ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
                     ->take(20) // گرفتن 20 رکورد
                     ->get(); // اجرا و دریافت نتایج
-
             } //if user choice one of important OR notImportant
             else if ($request->important == 'important' or $request->important == 'notImportant') {
                 $important = ['important' => 1, 'notImportant' => 0];
