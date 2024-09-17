@@ -182,11 +182,15 @@
             //create url for request other pages
             let instrumentsFilters = {!! json_encode($lastInstrumentsFilters) !!};
             let importantState = {!! json_encode($lastImportantState) !!};
+            let searchText = {!! json_encode($searchText)!!};
             let urlFiltersAndPageNumber = '?important=' + importantState;
+
             for (let i = 0; i < instrumentsFilters.length; i++) {
                 urlFiltersAndPageNumber += "&" + instrumentsFilters[i] + "=on";
             }
+
             urlFiltersAndPageNumber += "&page=" + page;
+            urlFiltersAndPageNumber += "&searchText=" + searchText;
 
             $(window).scroll(function () {
 
