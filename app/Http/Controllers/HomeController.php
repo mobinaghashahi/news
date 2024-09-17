@@ -26,7 +26,8 @@ class HomeController extends Controller
             'newsHash'=>sha1($news),
             'lastInstrumentsFilters'=>[],
             'lastImportantState'=>'both',
-            'instruments'=>$instruments]);
+            'instruments'=>$instruments,
+            'urlActionSearch'=>'/searchResult']);
     }
     public function insertNews($page){
         /*return view('insertScrollNews', ['news' => News::all()->reverse()->skip($page*5)->take(5),
@@ -78,7 +79,8 @@ class HomeController extends Controller
             'newsHash'=>sha1($filteredNews),
             'lastInstrumentsFilters'=>$lastInstrumentsFilters,
             'lastImportantState'=>$lastImportantState,
-            'instruments'=>$instruments]);
+            'instruments'=>$instruments,
+            'urlActionSearch'=>'/searchResult']);
     }
     public function insertScrollNewsWhitFilters(Request $request){
         // آرایه‌ای از مقادیر instruments که می‌خواهید فیلتر کنید
@@ -137,7 +139,8 @@ class HomeController extends Controller
             'lastInstrumentsFilters'=>[],
             'lastImportantState'=>'both',
             'instruments'=>$instruments,
-            'searchText'=>$searchText]);
+            'searchText'=>$searchText,
+            'urlActionSearch'=>'/searchResult']);
     }
     public function insertSearchScrollNews(Request $request){
         $page=$request->page;

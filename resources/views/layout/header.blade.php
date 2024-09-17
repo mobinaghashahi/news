@@ -37,7 +37,7 @@
                 @endif
             </div>
             <div class="col-4" style="padding: 0px 0px 10px 0px;float: left">
-                <form method="get" action="/searchResult">
+                <form method="get" action="{{$urlActionSearch}}">
                     <div class="search-container">
                         <i class="fas fa-search icon"></i> <!-- آیکون ذره‌بین -->
                         <input name="searchText" type="text" value="{{ $searchText ?? '' }}" placeholder="Search">
