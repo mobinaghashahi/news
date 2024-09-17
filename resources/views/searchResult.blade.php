@@ -87,6 +87,50 @@
                 });
             }
         });
+        $(document).ready(function () {
+            var conn = new ReconnectingWebSocket('ws://82.115.16.178:1020');
+            conn.onopen = function (e) {
+                console.log("Connection stablished");
+            }
+            conn.onmessage = function (e) {
+                //console.log('newsMessage');
+                message = e.data;
+                console.log(message)
+                if (message === "new") {
+                    $.ajax({
+                        type: "GET",
+                        url: "/addNewNewsBlock",
+                        success: function (data) {
+                            //console.log('newsMessage');
+                            //location.reload()
+                            //document.getElementById(newsID).innerHTML=data;
+                            console.log("new NEWS")
+                            $("#news").prepend(data);
+                            //$(divID).replaceWith(data);
+                            /*console.log(element)
+                            $(element).animate({backgroundColor: "#eeeeee"});*/
+                        }
+                    });
+                } else {
+                    var newsID = e.data
+                    console.log("newsID edite:" + newsID)
+                    var divID = "#" + newsID;
+                    $.ajax({
+                        type: "GET",
+                        url: "/singleBlockNews/" + newsID,
+                        success: function (data) {
+                            //console.log('newsMessage');
+                            //location.reload()
+                            //document.getElementById(newsID).innerHTML=data;
+                            $(divID).replaceWith(data);
+                            /*console.log(element)
+                            $(element).animate({backgroundColor: "#eeeeee"});*/
+                        }
+                    });
+                }
+
+            }
+        });
 
 
     </script>
