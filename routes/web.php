@@ -11,9 +11,14 @@ use App\Http\Middleware\AdminMiddleware;
 
 
 Route::get('/',[HomeController::class, 'showHomePage'])->middleware([loginMiddleware::class]);
+Route::get('/insertScrollNews/{page}',[HomeController::class, 'insertNews']);
+
 Route::get('/filter',[HomeController::class, 'showFilterNews'])->middleware([loginMiddleware::class]);
 Route::get('/insertScrollNewsWhitFilters',[HomeController::class, 'insertScrollNewsWhitFilters']);
-Route::get('/insertScrollNews/{page}',[HomeController::class, 'insertNews']);
+
+Route::get('/searchResult',[HomeController::class, 'searchResultNews'])->middleware([loginMiddleware::class]);
+Route::get('/insertSearchScrollNews',[HomeController::class, 'insertSearchScrollNews']);
+
 Route::get('/login', [loginController::class, 'loginView'])->name('login')->middleware(authMiddleware::class); //روت نمایش ویو صفحه ورود
 Route::post('/login', [loginController::class, 'login']); //روت پست اطلاعات فرم ورود
 Route::get('/logout', [loginController::class, 'logout']);

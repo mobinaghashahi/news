@@ -189,3 +189,25 @@ select option{
     cursor: pointer;
     width: 18%;
 }
+
+
+.search-container {
+    padding: 10px 0px 0px 0px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-container input[type="text"] {
+    width: 800%;
+    padding: 5px 15px 5px 20px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.search-container .icon {
+    position: absolute;
+    left: 5px;
+    font-size: 13px;
+    color: #aaa;
+}

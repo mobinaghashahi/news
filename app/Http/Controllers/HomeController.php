@@ -40,7 +40,6 @@ class HomeController extends Controller
     }
 
     public function showFilterNews(Request $request){
-
         //use for checkbox filters
         $instruments=Details::whereNot('instrument','=','')
             ->select('instrument')
@@ -115,6 +114,43 @@ class HomeController extends Controller
         return view('insertScrollNewsWhitFilters', ['news' => $filteredNews,
             'details'=>$details]);
     }
+
+    public function searchResultNews(Request $request){
+
+        $searchText=$request->searchText;
+
+        $news = News::where('text', 'like', '%' . $searchText . '%')
+            ->orderBy('created_at', 'desc') // مرتب کردن به ترتیب نزولی
+            ->take(20) // گرفتن ۲۰ نتیجه آخر
+            ->get();
+        $newsIds = $news->pluck('id'); // استخراج شناسه‌های اخبار
+        $details = Details::whereIn('news_id', $newsIds)->get(); // فیلتر کردن details بر اساس شناسه‌های اخبار
+        //use for checkbox filters
+        $instruments=Details::whereNot('instrument','=','')
+            ->select('instrument')
+            ->groupBy('instrument')
+            ->get();
+
+        return view('searchResult', ['news' => $news,
+            'details'=>$details,
+            'newsHash'=>sha1($news),
+            'lastInstrumentsFilters'=>[],
+            'lastImportantState'=>'both',
+            'instruments'=>$instruments,
+            'searchText'=>$searchText]);
+    }
+    public function insertSearchScrollNews(Request $request){
+        $page=$request->page;
+        $searchText=$request->searchText;
+        $news = News::where('text', 'like', '%' . $searchText . '%')
+            ->orderBy('created_at', 'desc')->skip($page*20)->take(20)->get();
+        $newsIds = $news->pluck('id'); // استخراج شناسه‌های اخبار
+
+        $details = Details::whereIn('news_id', $newsIds)->get(); // فیلتر کردن details بر اساس شناسه‌های اخبار
+        return view('insertScrollNews', ['news' => $news,
+            'details'=>$details]);
+    }
+
 
     public function singleBlockNews($news_id)
     {
