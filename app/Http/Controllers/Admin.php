@@ -97,9 +97,19 @@ class Admin extends Controller
         elseif (!empty($searchText)){
             $searchText=$request->searchText;
 
-            $filteredNews = News::where('text', 'like', '%' . $searchText . '%')
-                ->orderBy('created_at', 'desc') // مرتب کردن به ترتیب نزولی
-                ->take(20) // گرفتن ۲۰ نتیجه آخر
+            $filteredNews = News::select('news.id', 'news.text', 'news.created_at', 'news.title')
+                ->join('details', 'details.news_id', '=', 'news.id')
+                ->where('news.text', 'like', '%' . $searchText . '%')
+                ->orWhere('news.title', 'like', '%' . $searchText . '%')
+                ->orWhere('news.created_at', 'like', '%' . $searchText . '%')
+                ->orWhere('details.instrument', 'like', '%' . $searchText . '%')
+                ->groupBy('news.id') // گروه‌بندی بر اساس news.id
+                ->groupBy('news.text')
+                ->groupBy('news.title')
+                ->groupBy('news.created_at')
+                ->orderBy('news.created_at', 'desc')
+                ->orderBy('news.id', 'desc')
+                ->take(20)
                 ->get();
             $newsIds = $filteredNews->pluck('id'); // استخراج شناسه‌های اخبار
             $details = Details::whereIn('news_id', $newsIds)->get(); // فیلتر کردن details بر اساس شناسه‌های اخبار
@@ -212,10 +222,20 @@ class Admin extends Controller
         }elseif (!empty($searchText)){
             $searchText=$request->searchText;
 
-            $filteredNews = News::where('text', 'like', '%' . $searchText . '%')
-                ->orderBy('created_at', 'desc') // مرتب کردن به ترتیب نزولی
+            $filteredNews = News::select('news.id', 'news.text', 'news.created_at', 'news.title')
+                ->join('details', 'details.news_id', '=', 'news.id')
+                ->where('news.text', 'like', '%' . $searchText . '%')
+                ->orWhere('news.title', 'like', '%' . $searchText . '%')
+                ->orWhere('news.created_at', 'like', '%' . $searchText . '%')
+                ->orWhere('details.instrument', 'like', '%' . $searchText . '%')
+                ->groupBy('news.id') // گروه‌بندی بر اساس news.id
+                ->groupBy('news.text')
+                ->groupBy('news.title')
+                ->groupBy('news.created_at')
+                ->orderBy('news.created_at', 'desc')
+                ->orderBy('news.id', 'desc')
                 ->skip($request->page * 20)
-                ->take(20) // گرفتن ۲۰ نتیجه آخر
+                ->take(20)
                 ->get();
             $newsIds = $filteredNews->pluck('id'); // استخراج شناسه‌های اخبار
             $details = Details::whereIn('news_id', $newsIds)->get(); // فیلتر کردن details بر اساس شناسه‌های اخبار
