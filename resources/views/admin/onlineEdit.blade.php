@@ -185,9 +185,10 @@
             for (let i = 0; i < instrumentsFilters.length; i++) {
                 urlFiltersAndPageNumber += "&" + instrumentsFilters[i] + "=on";
             }
-
-            urlFiltersAndPageNumber += "&page=" + page;
+            
             urlFiltersAndPageNumber += "&searchText=" + searchText;
+            urlFiltersAndPageNumber += "&page=" + page;
+
 
             $(window).scroll(function () {
                 if ($(window).height() + $(document).scrollTop() + 100 >= $(document).height() && scrolling === false) {
