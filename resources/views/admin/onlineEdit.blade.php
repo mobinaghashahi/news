@@ -121,7 +121,6 @@
 
             $('#toggleText').click(function () {
                 $('#myDiv').slideToggle(500); /* افکت کشویی پایین آمدن */
-
                 var arrow = document.getElementById('arrow');
                 arrow.classList.toggle('rotated'); // اضافه یا حذف کلاس برای چرخش فلش
             });
@@ -157,8 +156,6 @@
                             beep()
                             //ارسال آی دی اخبار تغییر کرده برای کلاینت ها
                             conn.send(newsID);
-                            /*console.log(element)
-                            $(element).animate({backgroundColor: "#eeeeee"});*/
                         }
                     });
                     return false; // avoid to execute the actual form submission.
@@ -193,9 +190,6 @@
             urlFiltersAndPageNumber += "&searchText=" + searchText;
 
             $(window).scroll(function () {
-
-                //console.log("curent=" + $(document).scrollTop());
-                //console.log($(document).height() - $(window).height());
                 if ($(window).height() + $(document).scrollTop() + 100 >= $(document).height() && scrolling === false) {
                     scrolling = true;
                     $.ajax({
@@ -207,8 +201,6 @@
                             urlFiltersAndPageNumber = urlFiltersAndPageNumber.replace(/(\d+)(?=&[^&=]*$|$)/, page); // جایگزینی عدد انتهایی با رشته خالی
                             $("body").append(data);
                             scrolling = false;
-                            /*console.log(element)
-                            $(element).animate({backgroundColor: "#eeeeee"});*/
                         },
                         error: function () {
                             scrolling = false;

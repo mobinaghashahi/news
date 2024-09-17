@@ -57,11 +57,6 @@ class Admin extends Controller
         $details->save();
 
 
-        /*
-        //ذخیره کردن هشتگ ها
-        saveTags($request->instrument, $details->id);
-        */
-
         return redirect()->intended('/admin/addNews')->with('msg', 'خبر با موفقیت افزوده شد.');
 
     }
@@ -134,11 +129,7 @@ class Admin extends Controller
 
         $newsIds = $filteredNews->pluck('id'); // استخراج شناسه‌های اخبار
         $details = Details::whereIn('news_id', $newsIds)->get(); // فیلتر کردن details بر اساس شناسه‌های اخبار
-        /*return view('admin.onlineEdit', ['news' => News::all()->reverse()->take(5),
-            'tags' => retriveTags(),
-            'details' => Details::all(),
-            'lastDetailsID' => Details::orderBy('id')
-                ->get('id')->reverse()->first()]);*/
+
         return view('admin.onlineEdit', ['news' => $filteredNews,
             'details' => $details,
             'lastInstrumentsFilters' => $lastInstrumentsFilters,
@@ -169,10 +160,6 @@ class Admin extends Controller
         $news->user_id = Auth::user()->id;
         $news->save();
 
-        /*
-        //حذف کردن تگ ها قبلی خبر
-        deleteTagsByNewsID($news->id);
-        */
 
         //ذخیره کردن details
         $news_id = $request->id;
@@ -263,9 +250,7 @@ class Admin extends Controller
 
         $newsIds = $filteredNews->pluck('id'); // استخراج شناسه‌های اخبار
         $details = Details::whereIn('news_id', $newsIds)->get(); // فیلتر کردن details بر اساس شناسه‌های اخبار
-        /*return view('admin.insertScrollNews', ['news' => News::all()->reverse()->skip($page * 5)->take(5),
-            'tags' => retriveTags(),
-            'details' => Details::all()]);*/
+
         return view('admin.insertScrollNews', ['news' => $filteredNews,
             'details' => $details]);
     }

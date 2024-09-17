@@ -77,8 +77,6 @@
                         page = page + 1;
                         $("#news").append(data);
                         scrolling = false;
-                        /*console.log(element)
-                        $(element).animate({backgroundColor: "#eeeeee"});*/
                     },
                     error: function () {
                         scrolling = false;
@@ -102,16 +100,12 @@
                                 url: "/multiBlockNews/" + page,
                                 success: function (data) {
                                     $("#news").replaceWith(data);
-                                    /*console.log(element)
-                                    $(element).animate({backgroundColor: "#eeeeee"});*/
                                 },
                                 error: function () {
                                     scrolling = false;
                                 }
                             });
                         }
-                        /*console.log(element)
-                        $(element).animate({backgroundColor: "#eeeeee"});*/
                     },
                     error: function () {
                         scrolling = false;
@@ -119,7 +113,6 @@
                 });
             }
             conn.onmessage = function (e) {
-                //console.log('newsMessage');
                 message = e.data;
                 console.log(message)
                 if (message === "new") {
@@ -127,14 +120,8 @@
                         type: "GET",
                         url: "/addNewNewsBlock",
                         success: function (data) {
-                            //console.log('newsMessage');
-                            //location.reload()
-                            //document.getElementById(newsID).innerHTML=data;
                             console.log("new NEWS")
                             $("#news").prepend(data);
-                            //$(divID).replaceWith(data);
-                            /*console.log(element)
-                            $(element).animate({backgroundColor: "#eeeeee"});*/
                         }
                     });
                 } else {
@@ -145,12 +132,7 @@
                         type: "GET",
                         url: "/singleBlockNews/" + newsID,
                         success: function (data) {
-                            //console.log('newsMessage');
-                            //location.reload()
-                            //document.getElementById(newsID).innerHTML=data;
                             $(divID).replaceWith(data);
-                            /*console.log(element)
-                            $(element).animate({backgroundColor: "#eeeeee"});*/
                         }
                     });
                 }

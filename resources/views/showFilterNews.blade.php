@@ -117,8 +117,6 @@
                         urlFiltersAndPageNumber = urlFiltersAndPageNumber.replace(/(\d+)(?=&[^&=]*$|$)/, page); // جایگزینی عدد انتهایی با رشته خالی
                         $("#news").append(data);
                         scrolling = false;
-                        /*console.log(element)
-                        $(element).animate({backgroundColor: "#eeeeee"});*/
                     },
                     error: function () {
                         scrolling = false;
@@ -132,7 +130,6 @@
             var conn = new ReconnectingWebSocket('ws://82.115.16.178:1020');
 
             conn.onmessage = function (e) {
-                //console.log('newsMessage');
                 message = e.data;
                 console.log(message)
                 if (message === "new") {
@@ -140,14 +137,8 @@
                         type: "GET",
                         url: "/addNewNewsBlock",
                         success: function (data) {
-                            //console.log('newsMessage');
-                            //location.reload()
-                            //document.getElementById(newsID).innerHTML=data;
                             console.log("new NEWS")
                             $("#news").prepend(data);
-                            //$(divID).replaceWith(data);
-                            /*console.log(element)
-                            $(element).animate({backgroundColor: "#eeeeee"});*/
                         }
                     });
                 } else {
@@ -158,12 +149,7 @@
                         type: "GET",
                         url: "/singleBlockNews/" + newsID,
                         success: function (data) {
-                            //console.log('newsMessage');
-                            //location.reload()
-                            //document.getElementById(newsID).innerHTML=data;
                             $(divID).replaceWith(data);
-                            /*console.log(element)
-                            $(element).animate({backgroundColor: "#eeeeee"});*/
                         }
                     });
                 }

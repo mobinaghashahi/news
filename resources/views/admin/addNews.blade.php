@@ -77,16 +77,8 @@
                         url: "/admin/addNews",
                         data: $(this).closest("form").serialize(), // changed
                         success: function (data) {
-                            //console.log('newsMessage');
-                            //location.reload()
-                            //document.getElementById(newsID).innerHTML=data;
                             conn.send('new');
-
                             clearForm()
-
-                            //$(divID).replaceWith(data);
-                            /*console.log(element)
-                            $(element).animate({backgroundColor: "#eeeeee"});*/
                         }
                     });
 
