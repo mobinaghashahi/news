@@ -219,7 +219,7 @@ class Admin extends Controller
                     ->take(20) // گرفتن 20 رکورد
                     ->get(); // اجرا و دریافت نتایج
             }
-        }elseif (!empty($searchText)){
+        }elseif (!empty($searchText) AND $searchText!="null"){
             $searchText=$request->searchText;
 
             $filteredNews = News::select('news.id', 'news.text', 'news.created_at', 'news.title')
