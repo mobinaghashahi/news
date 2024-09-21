@@ -36,6 +36,7 @@
                     </a>
                 @endif
             </div>
+            @if(isset($urlActionSearch))
             <div class="col-4" style="padding: 0px 0px 10px 0px;float: left">
                 <form method="get" action="{{$urlActionSearch}}">
                     <div class="search-container">
@@ -44,6 +45,11 @@
                     </div>
                 </form>
             </div>
+            @else
+                <div class="col-4" style="padding: 0px 0px 10px 0px;float: left">
+
+                </div>
+            @endif
             <div class="col-4"
                  style="float: left;color: white;text-decoration: none; text-align: right; padding-top: 15px">
                 <a style="color: white;text-decoration: none; text-align: left;position: relative;right: 20px"
