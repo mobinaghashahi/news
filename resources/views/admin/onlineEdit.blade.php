@@ -247,9 +247,16 @@
                         type: "GET",
                         url: "/admin/deleteDetailsForm/" + detailsElementID,
                         success: function (data) {
-                            document.getElementById(detailsElementID).remove();
-                            //ارسال آی دی اخبار تغییر کرده برای کلاینت ها
-                            conn.send(newsID);
+                            console.log(data)
+                            if(data=="yes"){
+                                document.getElementById(detailsElementID).remove();
+                                //ارسال آی دی اخبار تغییر کرده برای کلاینت ها
+                                conn.send(newsID);
+                                console.log(data)
+                            }
+                            else {
+                                alert("You Can't Delete It!")
+                            }
                         }
                     });
                 });

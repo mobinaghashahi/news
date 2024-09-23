@@ -300,8 +300,7 @@ class Admin extends Controller
     public function deleteDetailsForm($details_id)
     {
         deleteTagsByDetailsID($details_id);
-        deleteDetailsByDetailsID($details_id);
-        return true;
+        return deleteDetailsByDetailsID($details_id);
     }
 
     public function deleteNewsForm($news_id)
