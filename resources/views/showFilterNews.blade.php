@@ -128,7 +128,9 @@
 
         $(document).ready(function () {
             var conn = new ReconnectingWebSocket('ws://82.115.16.178:1020');
-
+            conn.onopen = function (e) {
+                console.log("Connection stablished");
+            }
             conn.onmessage = function (e) {
                 message = e.data;
                 console.log(message)
