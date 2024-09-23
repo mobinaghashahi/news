@@ -257,8 +257,7 @@ class Admin extends Controller
         } elseif(empty($lastInstrumentsFilters)) {
             //if user choice both (important and notImportant)
             if ($request->important == 'both' or $lastImportantState == "null") {
-                $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
-                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at', 'news.title as title')
+                $filteredNews = News::select('news.id as id', 'news.text as text', 'news.created_at as created_at', 'news.title as title')
                     ->groupBy('news.id') // گروه‌بندی بر اساس news.id
                     ->groupBy('news.text')
                     ->groupBy('news.title')
