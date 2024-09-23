@@ -41,6 +41,9 @@ class HomeController extends Controller
     }
 
     public function showFilterNews(Request $request){
+        \DB::statement("SET SQL_MODE=''");
+
+
         //use for checkbox filters
         $instruments=Details::whereNot('instrument','=','')
             ->select('instrument')
@@ -55,22 +58,45 @@ class HomeController extends Controller
 
         //جداسازی دو حالت برای اخبار مهم، غیر مهم و هردو اخبار مهم و غیر مهم
         if($request->important=='both'){
-            $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
-                ->select('news.id as id','news.text as text','news.created_at as created_at','news.title as title')
-                ->whereIn('details.instrument', $lastInstrumentsFilters) // اعمال شرط بر روی instruments
-                ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
-                ->take(20) // گرفتن 20 رکورد
-                ->get(); // اجرا و دریافت نتایج
+            if(empty($lastInstrumentsFilters)){
+                $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
+                    ->select('news.id as id','news.text as text','news.created_at as created_at','news.title as title')
+                    ->groupBy('news.id') // گروه‌بندی بر اساس news.id
+                    ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
+                    ->take(20) // گرفتن 20 رکورد
+                    ->get(); // اجرا و دریافت نتایج
+            }else{
+                $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
+                    ->select('news.id as id','news.text as text','news.created_at as created_at','news.title as title')
+                    ->whereIn('details.instrument', $lastInstrumentsFilters) // اعمال شرط بر روی instruments
+                    ->groupBy('news.id') // گروه‌بندی بر اساس news.id
+                    ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
+                    ->take(20) // گرفتن 20 رکورد
+                    ->get(); // اجرا و دریافت نتایج
+            }
+
         }
         else if($request->important=='important' OR $request->important=='notImportant'){
             $important=['important'=>1,'notImportant'=>0];
-            $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
-                ->select('news.id as id','news.text as text','news.created_at as created_at','news.title as title')
-                ->whereIn('details.instrument', $lastInstrumentsFilters) // اعمال شرط بر روی instruments
-                ->where('details.important', $important[$request->important])// اعمال شرط برای important
-                ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
-                ->take(20) // گرفتن 20 رکورد
-                ->get(); // اجرا و دریافت نتایج
+            if(empty($lastInstrumentsFilters)) {
+                $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
+                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at', 'news.title as title')
+                    ->where('details.important', $important[$request->important])// اعمال شرط برای important
+                    ->groupBy('news.id') // گروه‌بندی بر اساس news.id
+                    ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
+                    ->take(20) // گرفتن 20 رکورد
+                    ->get(); // اجرا و دریافت نتایج
+            }
+            else{
+                $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
+                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at', 'news.title as title')
+                    ->whereIn('details.instrument', $lastInstrumentsFilters) // اعمال شرط بر روی instruments
+                    ->where('details.important', $important[$request->important])// اعمال شرط برای important
+                    ->groupBy('news.id') // گروه‌بندی بر اساس news.id
+                    ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
+                    ->take(20) // گرفتن 20 رکورد
+                    ->get(); // اجرا و دریافت نتایج
+            }
         }
         $newsIds = $filteredNews->pluck('id'); // استخراج شناسه‌های اخبار
         $details = Details::whereIn('news_id', $newsIds)->get(); // فیلتر کردن details بر اساس شناسه‌های اخبار
@@ -83,32 +109,59 @@ class HomeController extends Controller
             'urlActionSearch'=>'/searchResult']);
     }
     public function insertScrollNewsWhitFilters(Request $request){
+        \DB::statement("SET SQL_MODE=''");
+
         // آرایه‌ای از مقادیر instruments که می‌خواهید فیلتر کنید
         $Filters = array_keys($request->all()); // مقادیر فیلتر ارسال شده از فرم فیلتر
-        $keysToExpect=['applyFilters','important'];
+        $keysToExpect=['applyFilters','important','page'];
         $lastInstrumentsFilters=array_diff($Filters, $keysToExpect);
         $lastImportantState=$request->important;
 
         //جداسازی دو حالت برای اخبار مهم، غیر مهم و هردو اخبار مهم و غیر مهم
         if($request->important=='both'){
-            $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
-                ->select('news.id as id','news.text as text','news.created_at as created_at','news.title as title')
-                ->whereIn('details.instrument', $lastInstrumentsFilters) // اعمال شرط بر روی instruments
-                ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
-                ->take(20) // گرفتن 20 رکورد
-                ->skip($request->page*20)
-                ->get(); // اجرا و دریافت نتایج
+            if(empty($lastInstrumentsFilters)){
+                $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
+                    ->select('news.id as id','news.text as text','news.created_at as created_at','news.title as title')
+                    ->groupBy('news.id') // گروه‌بندی بر اساس news.id
+                    ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
+                    ->take(20) // گرفتن 20 رکورد
+                    ->skip($request->page*20)
+                    ->get(); // اجرا و دریافت نتایج
+            }else{
+                $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
+                    ->select('news.id as id','news.text as text','news.created_at as created_at','news.title as title')
+                    ->whereIn('details.instrument', $lastInstrumentsFilters) // اعمال شرط بر روی instruments
+                    ->groupBy('news.id') // گروه‌بندی بر اساس news.id
+                    ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
+                    ->take(20) // گرفتن 20 رکورد
+                    ->skip($request->page*20)
+                    ->get(); // اجرا و دریافت نتایج
+            }
+
         }
         else if($request->important=='important' OR $request->important=='notImportant'){
             $important=['important'=>1,'notImportant'=>0];
-            $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
-                ->select('news.id as id','news.text as text','news.created_at as created_at','news.title as title')
-                ->whereIn('details.instrument', $lastInstrumentsFilters) // اعمال شرط بر روی instruments
-                ->where('details.important', $important[$request->important])// اعمال شرط برای important
-                ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
-                ->skip($request->page*20)
-                ->take(20) // گرفتن 20 رکورد
-                ->get(); // اجرا و دریافت نتایج
+            if(empty($lastInstrumentsFilters)){
+                $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
+                    ->select('news.id as id','news.text as text','news.created_at as created_at','news.title as title')
+                    ->where('details.important', $important[$request->important])// اعمال شرط برای important
+                    ->groupBy('news.id') // گروه‌بندی بر اساس news.id
+                    ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
+                    ->skip($request->page*20)
+                    ->take(20) // گرفتن 20 رکورد
+                    ->get(); // اجرا و دریافت نتایج
+            }else{
+                $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
+                    ->select('news.id as id','news.text as text','news.created_at as created_at','news.title as title')
+                    ->whereIn('details.instrument', $lastInstrumentsFilters) // اعمال شرط بر روی instruments
+                    ->where('details.important', $important[$request->important])// اعمال شرط برای important
+                    ->groupBy('news.id') // گروه‌بندی بر اساس news.id
+                    ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
+                    ->skip($request->page*20)
+                    ->take(20) // گرفتن 20 رکورد
+                    ->get(); // اجرا و دریافت نتایج
+            }
+
         }
         $newsIds = $filteredNews->pluck('id'); // استخراج شناسه‌های اخبار
         $details = Details::whereIn('news_id', $newsIds)->get(); // فیلتر کردن details بر اساس شناسه‌های اخبار
