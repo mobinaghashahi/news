@@ -220,7 +220,7 @@ class HomeController extends Controller
 
     }
     public function getNewsHash($page){
-        $news=News::all()->reverse()->take($page*5);
+        $news=News::all()->reverse()->take($page*20);
         return sha1($news);
     }
 }

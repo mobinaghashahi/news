@@ -185,7 +185,7 @@
             for (let i = 0; i < instrumentsFilters.length; i++) {
                 urlFiltersAndPageNumber += "&" + instrumentsFilters[i] + "=on";
             }
-            
+
             urlFiltersAndPageNumber += "&searchText=" + searchText;
             urlFiltersAndPageNumber += "&page=" + page;
 
