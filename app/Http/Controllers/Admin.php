@@ -292,9 +292,17 @@ class Admin extends Controller
             'details' => $details]);
     }
 
-    public function addDetailsForm($details_id)
+    public function addDetailsForm($news_id)
     {
-        return view('admin.addDetailsForm', ['details_id' => $details_id]);
+        //ذخیره جزئیات خبر
+        $details = new Details();
+        $details->effect = '4';
+        $details->comment = '';
+        $details->news_id = $news_id;
+        $details->instrument = '';
+        $details->important = 0;
+        $details->save();
+        return view('admin.addDetailsForm', ['details_id' => $details->id]);
     }
 
     public function deleteDetailsForm($details_id)

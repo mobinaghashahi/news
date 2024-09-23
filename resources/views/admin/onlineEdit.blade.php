@@ -222,12 +222,11 @@
                     let id = "#" + $(this)[0]["attributes"].name.value
                     console.log(id);
 
-                    $.get("/admin/addDetailsForm/" + count, function (data, status) {
+                    $.get("/admin/addDetailsForm/" + news_id, function (data, status) {
                         //اضافه کردن جزئیات خبر جدید به بلوک مربوطه
                         $(id).append(data);
                         $('#countCarTypeFild').val(count);
-                        count++;
-                        console.log(count);
+                        conn.send(newsID);
                     });
 
 
