@@ -196,13 +196,17 @@ class Admin extends Controller
         $keysToExpect = ['applyFilters', 'important', 'page','searchText'];
         $lastInstrumentsFilters = array_diff($Filters, $keysToExpect);
         $lastImportantState = $request->important;
-        // choice any instruments
+        // برای برگرداندن خبر بر اساس هشتگ های فیلتر شده
         if(!empty($lastInstrumentsFilters)) {
             //if user choice both (important and notImportant)
             if ($lastImportantState == 'both' or $lastImportantState == "null") {
                 $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
                     ->select('news.id as id', 'news.text as text', 'news.created_at as created_at', 'news.title as title')
                     ->whereIn('details.instrument', $lastInstrumentsFilters) // اعمال شرط بر روی instruments
+                    ->groupBy('news.id') // گروه‌بندی بر اساس news.id
+                    ->groupBy('news.text')
+                    ->groupBy('news.title')
+                    ->groupBy('news.created_at')
                     ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
                     ->skip($request->page * 20)
                     ->take(20) // گرفتن 20 رکورد
@@ -214,12 +218,18 @@ class Admin extends Controller
                     ->select('news.id as id', 'news.text as text', 'news.created_at as created_at', 'news.title as title')
                     ->whereIn('details.instrument', $lastInstrumentsFilters) // اعمال شرط بر روی instruments
                     ->where('details.important', $important[$lastImportantState])// اعمال شرط برای important
+                    ->groupBy('news.id') // گروه‌بندی بر اساس news.id
+                    ->groupBy('news.text')
+                    ->groupBy('news.title')
+                    ->groupBy('news.created_at')
                     ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
                     ->skip($request->page * 20)
                     ->take(20) // گرفتن 20 رکورد
                     ->get(); // اجرا و دریافت نتایج
             }
-        }elseif (!empty($searchText) AND $searchText!="null"){
+        }
+        //برای جست و جو با کلمه سرچ شده
+        elseif (!empty($searchText) AND $searchText!="null"){
             $searchText=$request->searchText;
 
             $filteredNews = News::select('news.id', 'news.text', 'news.created_at', 'news.title')
@@ -249,6 +259,10 @@ class Admin extends Controller
             if ($request->important == 'both' or $lastImportantState == "null") {
                 $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
                     ->select('news.id as id', 'news.text as text', 'news.created_at as created_at', 'news.title as title')
+                    ->groupBy('news.id') // گروه‌بندی بر اساس news.id
+                    ->groupBy('news.text')
+                    ->groupBy('news.title')
+                    ->groupBy('news.created_at')
                     ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
                     ->skip($request->page * 20)
                     ->take(20) // گرفتن 20 رکورد
@@ -259,6 +273,10 @@ class Admin extends Controller
                 $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
                     ->select('news.id as id', 'news.text as text', 'news.created_at as created_at', 'news.title as title')
                     ->where('details.important', $important[$lastImportantState])// اعمال شرط برای important
+                    ->groupBy('news.id') // گروه‌بندی بر اساس news.id
+                    ->groupBy('news.text')
+                    ->groupBy('news.title')
+                    ->groupBy('news.created_at')
                     ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
                     ->skip($request->page * 20)
                     ->take(20) // گرفتن 20 رکورد
