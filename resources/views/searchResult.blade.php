@@ -1,6 +1,21 @@
 @extends('layout.master')
 @section('content')
     @include('filterNewsForm',["url" => "/filter"])
+    <div class="col-12" style="display: flex;justify-content: center;padding: 10px 0px 0px 0px">
+        <div class="col-6" style="background-color: #939393;padding: 10px;border-radius: 10px">
+            <div class="col-12">
+                <div style="float: left;margin: 10px 5px;width: 40%;padding-bottom: 10px">
+                    <a style="padding: 5px;color: white">
+                        You are seeing results that include the use of : <span style="color: red;font-weight: bolder">{{$searchText}}</span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-12" style="padding-top: 20px;margin-bottom: 10px">
+                <a style="background-color: #525252;padding: 5px;border-radius: 10px;cursor: pointer;text-decoration: none;color: white"
+                   href="/">Clear</a>
+            </div>
+        </div>
+    </div>
     <div id="news">
         @foreach($news as $new)
             <div class="col-12" id="{{$new->id}}" style="justify-content: center;display: flex;">
