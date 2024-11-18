@@ -22,6 +22,14 @@
                     </a>
                 </div>
             </div>
+            <hr>
+            <div class="col-12">
+            <div style="float: left;">
+                <a style="padding: 5px; color: #000000;font-size: 10px">
+                    Number of Results&nbsp;:&nbsp;{{$countRowNews}}
+                </a>
+            </div>
+        </div>
             <div class="col-12" style="padding-top: 20px;margin-bottom: 10px">
                 <a style="background-color: #525252;padding: 5px;border-radius: 10px;cursor: pointer;text-decoration: none;color: white"
                    href="/">Delete Filters</a>

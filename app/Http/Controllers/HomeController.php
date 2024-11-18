@@ -61,10 +61,12 @@ class HomeController extends Controller
             if(empty($lastInstrumentsFilters)){
                 $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
                     ->select('news.id as id','news.text as text','news.created_at as created_at','news.title as title')
-                    ->groupBy('news.id') // گروه‌بندی بر اساس news.id
-                    ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
                     ->take(20) // گرفتن 20 رکورد
                     ->get(); // اجرا و دریافت نتایج
+
+                $newsCount = News::join('details', 'details.news_id', '=', 'news.id')
+                    ->select('news.id as id','news.text as text','news.created_at as created_at','news.title as title')
+                    ->count(); // اجرا و دریافت نتایج
             }else{
                 $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
                     ->select('news.id as id','news.text as text','news.created_at as created_at','news.title as title')
@@ -73,6 +75,10 @@ class HomeController extends Controller
                     ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
                     ->take(20) // گرفتن 20 رکورد
                     ->get(); // اجرا و دریافت نتایج
+                $newsCount = News::join('details', 'details.news_id', '=', 'news.id')
+                    ->select('news.id as id','news.text as text','news.created_at as created_at','news.title as title')
+                    ->whereIn('details.instrument', $lastInstrumentsFilters) // اعمال شرط بر روی instruments
+                    ->count(); // اجرا و دریافت نتایج
             }
 
         }
@@ -86,6 +92,10 @@ class HomeController extends Controller
                     ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
                     ->take(20) // گرفتن 20 رکورد
                     ->get(); // اجرا و دریافت نتایج
+                $newsCount = News::join('details', 'details.news_id', '=', 'news.id')
+                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at', 'news.title as title')
+                    ->where('details.important', $important[$request->important])// اعمال شرط برای important
+                    ->count(); // اجرا و دریافت نتایج
             }
             else{
                 $filteredNews = News::join('details', 'details.news_id', '=', 'news.id')
@@ -96,6 +106,11 @@ class HomeController extends Controller
                     ->orderBy('news.id', 'desc') // مرتب‌سازی نزولی
                     ->take(20) // گرفتن 20 رکورد
                     ->get(); // اجرا و دریافت نتایج
+                $newsCount = News::join('details', 'details.news_id', '=', 'news.id')
+                    ->select('news.id as id', 'news.text as text', 'news.created_at as created_at', 'news.title as title')
+                    ->whereIn('details.instrument', $lastInstrumentsFilters) // اعمال شرط بر روی instruments
+                    ->where('details.important', $important[$request->important])// اعمال شرط برای important
+                    ->count(); // اجرا و دریافت نتایج
             }
         }
         $newsIds = $filteredNews->pluck('id'); // استخراج شناسه‌های اخبار
@@ -106,6 +121,7 @@ class HomeController extends Controller
             'lastInstrumentsFilters'=>$lastInstrumentsFilters,
             'lastImportantState'=>$lastImportantState,
             'instruments'=>$instruments,
+            'countRowNews'=>$newsCount,//برای اینه که تعداد اخباری که با فیلتر خاص رو جدا کردیم بدونیم.
             'urlActionSearch'=>'/searchResult']);
     }
     public function insertScrollNewsWhitFilters(Request $request){
